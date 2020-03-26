@@ -7,32 +7,105 @@
              x:Class="SOFT262.Creation.CreationPage"
              Title="Create Cards"
              IconImageSource="ic_create_black_48dp.png">
+    
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Type a topic for your revision card list."
-                FontSize="Large"
-                VerticalOptions="Start" 
-                HorizontalOptions="CenterAndExpand" />
-            <Entry Text="Revision topic"
-                   x:Name="RevisionTopicEntry"
-                   HorizontalOptions="Fill"
-                   VerticalOptions="Fill"
-                   />
-            <Label Text="Enter the revision question."
-                   FontSize="Large"
-                   HorizontalOptions="Fill"
-                   VerticalOptions="Fill"
-                   />
-            <Entry Text="Revision Question"
-                   x:Name="RevisionQuestionEntry"
-                   HorizontalOptions="Fill"
-                   VerticalOptions="Fill"
-            />
-            <Button Text="Submit Card"
-                    x:Name="SubmitButton"
-                    HorizontalOptions="Fill"
-                    VerticalOptions="Fill"
-                    />
-        </StackLayout>
+
+        <Grid Padding="20,20,20,20"
+              BackgroundColor="White">
+
+            <Grid.Resources>
+                <ResourceDictionary>
+                    <Style TargetType="Label">
+                        <Setter Property="FontSize" Value="Large"/>
+                    </Style>
+                </ResourceDictionary>
+            </Grid.Resources>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   HorizontalOptions="Center"
+                   Text="Create cards" 
+                   FontSize="Title"
+                   FontAttributes="Bold"/>
+
+            <Label Text="Topic" 
+                   Grid.Row="1" 
+                   Grid.Column="0"
+                   VerticalOptions="Center"/>
+
+            <Picker Grid.Row="1" Grid.Column="1"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="FillAndExpand"
+                    SelectedIndex="{Binding TopicIndex, Mode=OneWayToSource}">
+
+                <Picker.Items>
+                    <x:String>New</x:String>
+                    <x:String>Chemistry</x:String>
+                    <x:String>Mathematics</x:String>
+                    <x:String>French</x:String>
+                </Picker.Items>
+            </Picker>
+
+            <Label Text="Topic name"
+                   Grid.Row="2"
+                   Grid.Column="0"
+                   VerticalOptions="Center"
+                   IsVisible="False"/>
+
+            <Entry Grid.Row="2"
+                   Grid.Column="1"
+                   Placeholder="e.g. organisms"
+                   IsVisible="False"/>
+
+            <StackLayout Grid.Row="3" 
+                         Grid.Column="0" 
+                         Grid.ColumnSpan="2"
+                         VerticalOptions="FillAndExpand">
+            
+                <Label Text="Question" HorizontalOptions="Center"/>
+                
+                <Editor VerticalOptions="FillAndExpand"
+                        BackgroundColor="AliceBlue"
+                        Placeholder="e.g. What is photosynthesis?"/>
+
+            </StackLayout>
+
+            <StackLayout Grid.Row="4" 
+                         Grid.Column="0" 
+                         Grid.ColumnSpan="2"
+                         VerticalOptions="FillAndExpand">
+
+                <Label Text="Model answer" HorizontalOptions="Center"/>
+
+                <Editor VerticalOptions="FillAndExpand"
+                        BackgroundColor="AliceBlue"
+                        Placeholder="e.g. Photosynthesis is a chemical reaction that takes place inside a plant, producing food for the plant to survive."/>
+
+            </StackLayout>
+            
+            <Button Grid.Row="5" 
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Text ="Create card"
+                    VerticalOptions="Center"/>
+
+        </Grid>
+
     </ContentPage.Content>
+    
 </ContentPage>
