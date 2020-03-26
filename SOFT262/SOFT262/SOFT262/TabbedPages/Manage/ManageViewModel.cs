@@ -1,10 +1,17 @@
-﻿using System;
+﻿using SOFT262.Model;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace SOFT262.Manage
 {
-    class ManageViewModel
+    public class ManageViewModel
     {
+        MainModel model;
+
+        public ManageViewModel(MainModel model)
+        {
+            this.model = model;
+        }
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SOFT262.Model
 {
-    class RevisionGroup
+    public class RevisionGroup
     {
         public string Topic { get; }
         List<RevisionCard> revisionCards = new List<RevisionCard>();

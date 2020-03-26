@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SOFT262.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,9 +13,11 @@ namespace SOFT262.Summary
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SummaryPage : ContentPage
     {
-        public SummaryPage()
+        public SummaryPage(SummaryViewModel vm)
         {
             InitializeComponent();
+
+            BindingContext = vm;
         }
     }
 }

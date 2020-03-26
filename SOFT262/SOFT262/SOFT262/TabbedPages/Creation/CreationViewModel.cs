@@ -1,10 +1,16 @@
-﻿using System;
+﻿using SOFT262.Model;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace SOFT262.Creation
 {
-    class CreationViewModel
+    public class CreationViewModel
     {
+        MainModel model;
+        public CreationViewModel(MainModel model)
+        {
+            this.model = model;
+        }
     }
 }

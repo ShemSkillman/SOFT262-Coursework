@@ -1,6 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using SOFT262.Model;
 
 namespace SOFT262
 {
@@ -10,7 +11,9 @@ namespace SOFT262
         {
             InitializeComponent();
 
-            MainPage = new TopLevelPage();
+            MainModel model = new MainModel();
+
+            MainPage = new TopLevelPage(model);
         }
 
         protected override void OnStart()
