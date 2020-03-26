@@ -4,7 +4,7 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="SOFT262.CreationPage"
+             x:Class="SOFT262.Creation.CreationPage"
              Title="Create Cards"
              IconImageSource="ic_create_black_48dp.png">
     <ContentPage.Content>

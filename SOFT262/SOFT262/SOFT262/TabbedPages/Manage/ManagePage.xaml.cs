@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace SOFT262.Creation_Page
+namespace SOFT262.Manage
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class CreationPage : ContentPage
+    public partial class ManagePage : ContentPage
     {
-        public CreationPage()
+        public ManagePage()
         {
             InitializeComponent();
         }

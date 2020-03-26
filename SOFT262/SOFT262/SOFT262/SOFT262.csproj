@@ -11,6 +11,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="SummaryPage\**" />
+    <EmbeddedResource Remove="SummaryPage\**" />
+    <None Remove="SummaryPage\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="NewFile1.txt" />
   </ItemGroup>
 
@@ -20,18 +26,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Creation Page\CreationPage.xaml">
+    <EmbeddedResource Update="TabbedPages\Creation\CreationPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="ManagePage.xaml">
+    <EmbeddedResource Update="TabbedPages\Manage\ManagePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="SummaryPage.xaml">
+    <EmbeddedResource Update="TabbedPages\Summary\SummaryPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="SummaryPage\" />
   </ItemGroup>
 </Project>

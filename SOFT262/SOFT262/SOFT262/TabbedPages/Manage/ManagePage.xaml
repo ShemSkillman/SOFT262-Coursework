@@ -4,7 +4,7 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="SOFT262.ManagePage"
+             x:Class="SOFT262.Manage.ManagePage"
              Title="Manage Cards"
              IconImageSource="baseline_build_black_48dp.png">
     <ContentPage.Content>

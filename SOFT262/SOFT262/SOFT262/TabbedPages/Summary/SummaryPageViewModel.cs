@@ -5,7 +5,7 @@ using System.Text;
 using Xamarin.Forms;
 using SOFT262.Model;
 
-namespace SOFT262.ViewModel
+namespace SOFT262.Summary
 {
     class SummaryPageViewModel : INotifyPropertyChanged
     {

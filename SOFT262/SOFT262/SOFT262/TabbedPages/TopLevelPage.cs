@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
+using SOFT262.Creation;
+using SOFT262.Manage;
+using SOFT262.Summary;
 
 namespace SOFT262
 {
@@ -12,9 +15,11 @@ namespace SOFT262
         public TopLevelPage()
         {
             Title = "Revision Card App";
+
             Children.Add(new SummaryPage());
             Children.Add(new CreationPage());
             Children.Add(new ManagePage());
+
             if (Device.RuntimePlatform == Device.Android)
             {
                 Xamarin.Forms.PlatformConfiguration.AndroidSpecific.TabbedPage.SetToolbarPlacement(this, Xamarin.Forms.PlatformConfiguration.AndroidSpecific.ToolbarPlacement.Bottom);
