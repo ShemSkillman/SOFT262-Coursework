@@ -9,8 +9,9 @@
              IconImageSource="baseline_build_black_48dp.png">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
+            <Label Text="This is the Manage page."
+                FontSize="Header"
+                VerticalOptions="Start" 
                 HorizontalOptions="CenterAndExpand" />
         </StackLayout>
     </ContentPage.Content>

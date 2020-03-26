@@ -9,9 +9,20 @@
              IconImageSource="baseline_menu_book_black_48dp.png">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
+            <Label Text="Welcome to the revision page."
+                   FontSize="Large"
+                VerticalOptions="Start" 
                 HorizontalOptions="CenterAndExpand" />
+            <Label Text="Please choose a group of cards to revise from."
+                   FontSize="Medium"
+                   VerticalOptions="Fill"
+                   HorizontalOptions="CenterAndExpand"
+                   />
+            <ListView ItemsSource="{Binding RevisionGroup}"
+                      x:Name="RevisionCardView"
+                      HorizontalOptions="Center"
+                      VerticalOptions="CenterAndExpand"
+                      />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -8,6 +8,8 @@ namespace SOFT262.Model
     {
         List<RevisionGroup> revisionGroups;
 
+        public List<RevisionGroup> RevisionGroups { get; }
+
         public void CreateRevisionGroup(string topic)
         {
             foreach (var group in revisionGroups)
