@@ -9,9 +9,9 @@ namespace SOFT262.Manage
     {
         MainModel model;
 
-        public ManageViewModel(MainModel model)
+        public ManageViewModel()
         {
-            this.model = model;
+            model = MainModel.Instance;
         }
     }
 }

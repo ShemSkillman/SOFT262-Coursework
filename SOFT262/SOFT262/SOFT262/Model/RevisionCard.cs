@@ -6,13 +6,13 @@ namespace SOFT262.Model
 {
     public class RevisionCard
     {
-        RevisionGroup Group { get; set; }
+        string Topic { get; set; }
         public string Question { get; set; }
         public string Answer { get; set; }
 
-        public RevisionCard(RevisionGroup group, string question, string answer)
+        public RevisionCard(string topic, string question, string answer)
         {
-            Group = group;
+            Topic = topic;
             Question = question;
             Answer = answer;
         }

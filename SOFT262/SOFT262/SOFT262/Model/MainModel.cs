@@ -1,29 +1,63 @@
 ﻿using SOFT262.Creation;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace SOFT262.Model
 {
-    public class MainModel
+    public class MainModel : INotifyPropertyChanged
     {
-        public List<RevisionGroup> RevisionGroups { get; }
+        private static MainModel instance;
+
+        public static MainModel Instance { get
+            {
+                if (instance != null) return instance;
+
+                return instance = new MainModel();
+            }
+        }
+
+        Dictionary<string, List<RevisionCard>> revisionGroups;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public MainModel()
+        {
+            revisionGroups = new Dictionary<string, List<RevisionCard>>();
+        }
 
         public void CreateRevisionGroup(string topic)
         {
-            foreach (var group in RevisionGroups)
-            {
-                // Check if topic of same name exists
-                if (group.Topic.Equals(topic)) return;
-            }
+            if (revisionGroups.ContainsKey(topic)) return;
 
-            RevisionGroup newGroup = new RevisionGroup(topic);
-            RevisionGroups.Add(newGroup);
+            revisionGroups.Add(topic, new List<RevisionCard>());
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Topics)));
         }
 
-        public static implicit operator MainModel(CreationViewModel v)
+        public List<string> Topics
         {
-            throw new NotImplementedException();
+            get
+            {
+                var topicNames = new List<string>();
+
+                foreach (var topicName in revisionGroups.Keys)
+                {
+                    topicNames.Add(topicName);
+                }
+
+                topicNames.Sort();
+                return topicNames;
+            }            
+        }
+
+        public void CreateCard(string topic, string question, string answer)
+        {
+            CreateRevisionGroup(topic);
+
+            RevisionCard newCard = new RevisionCard(topic, question, answer);
+            revisionGroups[topic].Add(newCard);
         }
     }
 }

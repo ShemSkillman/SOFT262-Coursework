@@ -14,17 +14,17 @@ namespace SOFT262.Creation
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CreationPage : ContentPage, ICreationPageHelper
     {
-        public CreationPage(CreationViewModel vm)
+        public CreationPage()
         {
             InitializeComponent();
 
-            BindingContext = vm;
+            BindingContext = new CreationViewModel(this);
         }
-        INavigation IPage.NavigationProxy { get => Navigation; }
-        public async Task<String> AskForString(string questionTitle, string question)
+        //INavigation IPage.NavigationProxy { get => Navigation; }
+
+        public async Task MessagePopup(string messageTitle, string message)
         {
-            string result = await DisplayPromptAsync(questionTitle, question);
-            return result;
+            await DisplayAlert(messageTitle, message, "OK");
         }
     }
 }

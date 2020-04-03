@@ -12,11 +12,11 @@ namespace SOFT262.Manage
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ManagePage : ContentPage
     {
-        public ManagePage(ManageViewModel vm)
+        public ManagePage()
         {
             InitializeComponent();
 
-            BindingContext = vm;
+            BindingContext = new ManageViewModel();
         }
     }
 }

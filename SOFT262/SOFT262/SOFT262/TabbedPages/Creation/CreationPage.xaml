@@ -51,16 +51,10 @@
             <Picker Grid.Row="1" Grid.Column="1"
                     VerticalOptions="CenterAndExpand"
                     HorizontalOptions="FillAndExpand"
+                    ItemsSource="{Binding Topics, Mode=OneWay}"
                     SelectedIndex="{Binding TopicIndex, Mode=TwoWay}"
-                    x:Name="listTopics">
+                    x:Name="listTopics"/>
 
-                <Picker.Items>
-                    <x:String>New Topic</x:String>
-                    <x:String>Chemistry</x:String>
-                    <x:String>Mathematics</x:String>
-                    <x:String>French</x:String>
-                </Picker.Items>
-            </Picker>
 
             <Label Text="Topic name"
                    IsVisible="{Binding EnableNewTopicNameInput, Mode=OneWay}"
@@ -71,6 +65,7 @@
             <Entry Grid.Row="2"
                    Grid.Column="1"
                    IsVisible="{Binding EnableNewTopicNameInput, Mode=OneWay}"
+                   Text="{Binding TopicName, Mode=TwoWay}"
                    Placeholder="e.g. organisms"/>
 
             <StackLayout Grid.Row="3" 
@@ -82,7 +77,8 @@
                 
                 <Editor VerticalOptions="FillAndExpand"
                         BackgroundColor="AliceBlue"
-                        Placeholder="e.g. What is photosynthesis?"/>
+                        Placeholder="e.g. What is photosynthesis?"
+                        Text="{Binding Question, Mode=TwoWay}"/>
 
             </StackLayout>
 
@@ -95,7 +91,8 @@
 
                 <Editor VerticalOptions="FillAndExpand"
                         BackgroundColor="AliceBlue"
-                        Placeholder="e.g. Photosynthesis is a chemical reaction that takes place inside a plant, producing food for the plant to survive."/>
+                        Placeholder="e.g. Photosynthesis is a chemical reaction that takes place inside a plant, producing food for the plant to survive."
+                        Text="{Binding Answer, Mode=TwoWay}"/>
 
             </StackLayout>
             
@@ -104,7 +101,7 @@
                     Grid.ColumnSpan="2"
                     Text ="Create card"
                     VerticalOptions="Center"
-                    Command="{Binding Path=CreateCardClick}"/>
+                    Command="{Binding Path=CreateCard}"/>
 
         </Grid>
 

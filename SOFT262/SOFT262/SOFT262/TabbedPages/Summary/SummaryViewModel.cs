@@ -13,9 +13,9 @@ namespace SOFT262.Summary
 
         public event PropertyChangedEventHandler PropertyChanged;        
 
-        public SummaryViewModel(MainModel model)
+        public SummaryViewModel()
         {
-            this.model = model;
+            model = MainModel.Instance;
         }
     }
 }

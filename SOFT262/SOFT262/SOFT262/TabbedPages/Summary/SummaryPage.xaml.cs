@@ -13,11 +13,11 @@ namespace SOFT262.Summary
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SummaryPage : ContentPage
     {
-        public SummaryPage(SummaryViewModel vm)
+        public SummaryPage()
         {
             InitializeComponent();
 
-            BindingContext = vm;
+            BindingContext = new SummaryViewModel();
         }
     }
 }

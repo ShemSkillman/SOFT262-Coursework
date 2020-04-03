@@ -13,22 +13,13 @@ namespace SOFT262
     //Similar code structure given in SOFT262 Mobile Dev practicals
     public class TopLevelPage : TabbedPage
     {
-        private ICreationPageHelper p;
         public TopLevelPage(MainModel model)
         {
             Title = "Revision Card App";
 
-            //Initialise 'Revise' tab
-            var summaryVM = new SummaryViewModel(model);
-            Children.Add(new SummaryPage(summaryVM));
-
-            //Initialise 'Create' tab
-            var creationVM = new CreationViewModel(model, p);
-            Children.Add(new CreationPage(creationVM));
-
-            //Initialise 'Manage' tab
-            var manageVM = new ManageViewModel(model);
-            Children.Add(new ManagePage(manageVM));
+            Children.Add(new SummaryPage());
+            Children.Add(new CreationPage());
+            Children.Add(new ManagePage());
 
             if (Device.RuntimePlatform == Device.Android)
             {

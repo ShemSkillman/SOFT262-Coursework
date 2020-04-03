@@ -3,6 +3,7 @@ using SOFT262.TabbedPages.Creation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -12,16 +13,47 @@ namespace SOFT262.Creation
     public class CreationViewModel : INotifyPropertyChanged
     {
         MainModel model;
-        private ICreationPageHelper viewHelper;
+
         int topicIndex = -1;
         bool enableNewTopicNameInput = false;
+        string topicName = "";
+        string question = "";
+        string answer = "";
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public CreationViewModel(MainModel model)
+        public CreationViewModel(ICreationPageHelper p)
         {
-            this.model = model;
+            var creationHelper = p;
+            model = MainModel.Instance;
+            model.PropertyChanged += OnPropertyChanged;
+
             TopicIndex = 0;
+
+            CreateCard = new Command(execute: async () =>
+            {
+                string topic;
+                if (TopicIndex != 0) topic = Topics[TopicIndex];
+                else topic = TopicName;
+                TopicName = "";
+                Question = "";
+                Answer = "";
+
+                model.CreateCard(topic, Question, Answer);
+
+                TopicIndex = Topics.IndexOf(topic);
+                await creationHelper.MessagePopup("Card created", "Revision card has been created and added to topic " + topic);
+            });
+        }
+
+        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(e.PropertyName);
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public int TopicIndex
@@ -32,7 +64,7 @@ namespace SOFT262.Creation
                 if (topicIndex == value) return;
 
                 topicIndex = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TopicIndex)));
+                OnPropertyChanged();
 
                 if (topicIndex == 0) EnableNewTopicNameInput = true;
                 else EnableNewTopicNameInput = false;
@@ -47,11 +79,55 @@ namespace SOFT262.Creation
                 if (enableNewTopicNameInput == value) return;
 
                 enableNewTopicNameInput = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(EnableNewTopicNameInput)));
+                OnPropertyChanged();
             }
         }
 
-        public ICommand CreateCardClick { get; private set; }
+        public string Question
+        {
+            get => question;
+            set
+            {
+                if (question.Equals(value)) return;
+
+                question = value;
+                OnPropertyChanged();
+            }
+        }
+        public string Answer
+        {
+            get => answer;
+            set
+            {
+                if (answer.Equals(value)) return;
+
+                answer = value;
+                OnPropertyChanged();
+            }
+        }
+        public string TopicName
+        {
+            get => topicName;
+            set
+            {
+                if (topicName.Equals(value)) return;
+
+                topicName = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public List<string> Topics
+        {
+            get
+            {
+                List<string> topics = model.Topics;
+                topics.Insert(0, "New Topic");
+                return topics;
+            }
+        }
+
+        public ICommand CreateCard { get; private set; }
 
     }
 }
