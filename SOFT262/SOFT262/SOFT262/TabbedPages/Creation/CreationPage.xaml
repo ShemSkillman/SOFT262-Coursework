@@ -51,11 +51,11 @@
             <Picker Grid.Row="1" Grid.Column="1"
                     VerticalOptions="CenterAndExpand"
                     HorizontalOptions="FillAndExpand"
-                    SelectedIndex="{Binding TopicIndex, Mode=OneWayToSource}"
+                    SelectedIndex="{Binding TopicIndex, Mode=TwoWay}"
                     x:Name="listTopics">
 
                 <Picker.Items>
-                    <x:String>New</x:String>
+                    <x:String>New Topic</x:String>
                     <x:String>Chemistry</x:String>
                     <x:String>Mathematics</x:String>
                     <x:String>French</x:String>
@@ -63,15 +63,15 @@
             </Picker>
 
             <Label Text="Topic name"
+                   IsVisible="{Binding EnableNewTopicNameInput, Mode=OneWay}"
                    Grid.Row="2"
                    Grid.Column="0"
-                   VerticalOptions="Center"
-                   IsVisible="False"/>
+                   VerticalOptions="Center"/>
 
             <Entry Grid.Row="2"
                    Grid.Column="1"
-                   Placeholder="e.g. organisms"
-                   IsVisible="False"/>
+                   IsVisible="{Binding EnableNewTopicNameInput, Mode=OneWay}"
+                   Placeholder="e.g. organisms"/>
 
             <StackLayout Grid.Row="3" 
                          Grid.Column="0" 

@@ -9,11 +9,20 @@ using Xamarin.Forms;
 
 namespace SOFT262.Creation
 {
-    public class CreationViewModel
+    public class CreationViewModel : INotifyPropertyChanged
     {
         MainModel model;
         private ICreationPageHelper viewHelper;
-        int topicIndex;
+        int topicIndex = -1;
+        bool enableNewTopicNameInput = false;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public CreationViewModel(MainModel model)
+        {
+            this.model = model;
+            TopicIndex = 0;
+        }
 
         public int TopicIndex
         {
@@ -23,20 +32,26 @@ namespace SOFT262.Creation
                 if (topicIndex == value) return;
 
                 topicIndex = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TopicIndex)));
+
+                if (topicIndex == 0) EnableNewTopicNameInput = true;
+                else EnableNewTopicNameInput = false;
             }
         }
-        public ICommand CreateCardClick { get; private set; }
-        public CreationViewModel(MainModel model, ICreationPageHelper p) : base()
+
+        public bool EnableNewTopicNameInput
         {
-            this.model = model;
-            viewHelper = p;
-            CreateCardClick = new Command(execute: async () =>
+            get => enableNewTopicNameInput;
+            set
             {
-                string newTopic = await viewHelper.AskForString("New Topic", "What would you like the new topic name to be?");
-                if (newTopic == null) return;
-                
+                if (enableNewTopicNameInput == value) return;
+
+                enableNewTopicNameInput = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(EnableNewTopicNameInput)));
             }
-            );
         }
+
+        public ICommand CreateCardClick { get; private set; }
+
     }
 }
