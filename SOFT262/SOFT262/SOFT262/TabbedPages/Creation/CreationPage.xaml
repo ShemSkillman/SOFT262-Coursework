@@ -51,7 +51,8 @@
             <Picker Grid.Row="1" Grid.Column="1"
                     VerticalOptions="CenterAndExpand"
                     HorizontalOptions="FillAndExpand"
-                    SelectedIndex="{Binding TopicIndex, Mode=OneWayToSource}">
+                    SelectedIndex="{Binding TopicIndex, Mode=OneWayToSource}"
+                    x:Name="listTopics">
 
                 <Picker.Items>
                     <x:String>New</x:String>
@@ -102,7 +103,8 @@
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
                     Text ="Create card"
-                    VerticalOptions="Center"/>
+                    VerticalOptions="Center"
+                    Command="{Binding Path=CreateCardClick}"/>
 
         </Grid>
 

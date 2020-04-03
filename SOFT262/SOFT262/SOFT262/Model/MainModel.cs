@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SOFT262.Creation;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -18,6 +19,11 @@ namespace SOFT262.Model
 
             RevisionGroup newGroup = new RevisionGroup(topic);
             RevisionGroups.Add(newGroup);
+        }
+
+        public static implicit operator MainModel(CreationViewModel v)
+        {
+            throw new NotImplementedException();
         }
     }
 }

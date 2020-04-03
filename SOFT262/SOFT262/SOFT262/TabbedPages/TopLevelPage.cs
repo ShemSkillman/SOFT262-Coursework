@@ -6,12 +6,14 @@ using SOFT262.Creation;
 using SOFT262.Manage;
 using SOFT262.Summary;
 using SOFT262.Model;
+using SOFT262.TabbedPages.Creation;
 
 namespace SOFT262
 {
     //Similar code structure given in SOFT262 Mobile Dev practicals
     public class TopLevelPage : TabbedPage
-    {        
+    {
+        private ICreationPageHelper p;
         public TopLevelPage(MainModel model)
         {
             Title = "Revision Card App";
@@ -21,7 +23,7 @@ namespace SOFT262
             Children.Add(new SummaryPage(summaryVM));
 
             //Initialise 'Create' tab
-            var creationVM = new CreationViewModel(model);
+            var creationVM = new CreationViewModel(model, p);
             Children.Add(new CreationPage(creationVM));
 
             //Initialise 'Manage' tab
