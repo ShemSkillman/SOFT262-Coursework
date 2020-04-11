@@ -23,7 +23,7 @@ namespace SOFT262
             debug = revisionCards.GetAllCards();
             
 
-            MainModel model = new MainModel();
+                MainModel model = new MainModel();
 
             MainPage = new TopLevelPage(model);
 

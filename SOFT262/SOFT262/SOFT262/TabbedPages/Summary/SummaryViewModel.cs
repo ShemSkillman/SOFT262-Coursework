@@ -11,11 +11,15 @@ namespace SOFT262.Summary
     {
         private MainModel model;
 
-        public event PropertyChangedEventHandler PropertyChanged;        
+        public event PropertyChangedEventHandler PropertyChanged;
 
+
+        public Dictionary<string, string> revisionCards;
         public SummaryViewModel()
         {
             model = MainModel.Instance;
+            revisionCards = model.GetAllQuestionsAnswers();
+
         }
     }
 }

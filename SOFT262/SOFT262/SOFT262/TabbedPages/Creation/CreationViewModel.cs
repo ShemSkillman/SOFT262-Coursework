@@ -36,14 +36,13 @@ namespace SOFT262.Creation
                 string topic;
                 if (TopicIndex != 0) topic = Topics[TopicIndex];
                 else topic = TopicName;
-                //TopicName = "";
-                //Question = "";
-               // Answer = "";
-
-                model.CreateCard(topic, Question, Answer);
                 model.CreateCardInSQL(topic, question, answer);
+                TopicName = "";
+                Question = "";
+                Answer = "";
                 TopicIndex = Topics.IndexOf(topic);
                 await creationHelper.MessagePopup("Card created", "Revision card has been created and added to topic " + topic);
+
             });
         }
 
@@ -125,6 +124,10 @@ namespace SOFT262.Creation
                 List<string> topics = model.Topics;
                 topics.Insert(0, "New Topic");
                 return topics;
+            }
+            set
+            {
+                Topics = value;
             }
         }
 
