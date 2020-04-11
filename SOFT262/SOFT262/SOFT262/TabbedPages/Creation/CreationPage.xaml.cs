@@ -26,5 +26,6 @@ namespace SOFT262.Creation
         {
             await DisplayAlert(messageTitle, message, "OK");
         }
+
     }
 }

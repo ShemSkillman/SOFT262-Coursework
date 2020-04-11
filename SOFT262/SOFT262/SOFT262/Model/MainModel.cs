@@ -59,5 +59,36 @@ namespace SOFT262.Model
             RevisionCard newCard = new RevisionCard(topic, question, answer);
             revisionGroups[topic].Add(newCard);
         }
+        public List<RevisionCardSQL> RevisionCardsList
+        {
+
+            get
+            {
+                return RevisionCardsList;
+
+            }
+            set
+            {
+                App.revisionCards.GetAllCards();
+            }
+        }
+        public List<string> GetTopicsList() //Script to return the list of unique topics
+        {
+            var debug = App.revisionCards.GetAllCards();
+            List<string> topicList = new List<string>();
+            for (int i = 0; i < debug.Count; i++)
+            {
+                string result = debug[i].Topic.ToString();
+                if (!topicList.Contains(result)) //Searches if the result is NOT in the main method
+                {
+                    topicList.Add(result);
+                }
+            }
+            return topicList;
+        }
+        public void CreateCardInSQL(string topic, string question, string answer)
+        {
+            App.revisionCards.AddNewCard(topic, question, answer);
+        }
     }
 }

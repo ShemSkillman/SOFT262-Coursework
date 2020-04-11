@@ -32,15 +32,16 @@ namespace SOFT262.Creation
 
             CreateCard = new Command(execute: async () =>
             {
+                
                 string topic;
                 if (TopicIndex != 0) topic = Topics[TopicIndex];
                 else topic = TopicName;
-                TopicName = "";
-                Question = "";
-                Answer = "";
+                //TopicName = "";
+                //Question = "";
+               // Answer = "";
 
                 model.CreateCard(topic, Question, Answer);
-
+                model.CreateCardInSQL(topic, question, answer);
                 TopicIndex = Topics.IndexOf(topic);
                 await creationHelper.MessagePopup("Card created", "Revision card has been created and added to topic " + topic);
             });
