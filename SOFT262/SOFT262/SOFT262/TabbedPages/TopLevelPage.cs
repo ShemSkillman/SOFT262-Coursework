@@ -13,7 +13,7 @@ namespace SOFT262
     //Similar code structure given in SOFT262 Mobile Dev practicals
     public class TopLevelPage : TabbedPage
     {
-        public TopLevelPage(MainModel model)
+        public TopLevelPage()
         {
             Title = "Revision Card App";
 

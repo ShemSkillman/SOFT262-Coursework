@@ -18,9 +18,7 @@
                    VerticalOptions="Fill"
                    HorizontalOptions="CenterAndExpand"
                    />
-            <ListView ItemsSource="{Binding RevisionGroup}"
-                      x:Name="RevisionCardView"
-                      HorizontalOptions="Center"
+            <ListView HorizontalOptions="Center"
                       VerticalOptions="CenterAndExpand"
                       />
         </StackLayout>

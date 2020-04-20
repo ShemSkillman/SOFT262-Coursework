@@ -41,22 +41,16 @@ namespace SOFT262.Model
             get
             {
                 var topicNames = new List<string>();
-                topicNames = GetTopicsList();
 
-
-
-                //foreach (var topicName in revisionGroups.Keys)
-                //{
-                //    topicNames.Add(topicName);
-                //}
+                foreach (var topicName in revisionGroups.Keys)
+                {
+                    topicNames.Add(topicName);
+                }
 
                 topicNames.Sort();
                 return topicNames;
-            }            
+            }
         }
-
-        //**********************************************************SQLITE FUNCTIONS******************************************************
-
         public void CreateCard(string topic, string question, string answer)
         {
             CreateRevisionGroup(topic);
@@ -64,6 +58,9 @@ namespace SOFT262.Model
             RevisionCard newCard = new RevisionCard(topic, question, answer);
             revisionGroups[topic].Add(newCard);
         }
+
+        //**********************************************************SQLITE FUNCTIONS******************************************************
+
         public List<RevisionCardSQL> RevisionCardsList
         {
 

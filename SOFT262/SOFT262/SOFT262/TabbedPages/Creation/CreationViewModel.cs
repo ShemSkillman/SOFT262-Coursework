@@ -15,12 +15,17 @@ namespace SOFT262.Creation
         MainModel model;
 
         int topicIndex = -1;
+
+        //Only true when creating a new topic
         bool enableNewTopicNameInput = false;
+
+        //Fields that take user input
         string topicName = "";
         string question = "";
         string answer = "";
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public ICommand CreateCard { get; private set; }
 
         public CreationViewModel(ICreationPageHelper p)
         {
@@ -30,27 +35,35 @@ namespace SOFT262.Creation
 
             TopicIndex = 0;
 
+            //Set execute code when calling the create card command
+            //Resets input fields and creates card in model
             CreateCard = new Command(execute: async () =>
-            {
-                
+            {                
                 string topic;
-                if (TopicIndex != 0) topic = Topics[TopicIndex];
-                else topic = TopicName;
-                model.CreateCardInSQL(topic, question, answer);
+                if (TopicIndex != 0) topic = Topics[TopicIndex]; //Add to existing topic
+                else topic = TopicName; //Add to new topic
+
+                model.CreateCard(topic, question, answer);
+
+                //Clear fields
                 TopicName = "";
                 Question = "";
                 Answer = "";
-                TopicIndex = Topics.IndexOf(topic);
-                await creationHelper.MessagePopup("Card created", "Revision card has been created and added to topic " + topic);
 
+                //Ensures that last selected topic remains selected
+                TopicIndex = Topics.IndexOf(topic);
+
+                await creationHelper.MessagePopup("Card created", "Revision card has been created and added to topic " + topic);
             });
         }
 
+        //Called when property changes in the model
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             OnPropertyChanged(e.PropertyName);
         }
 
+        //Called from within the viewmodel when a property changes
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -66,11 +79,13 @@ namespace SOFT262.Creation
                 topicIndex = value;
                 OnPropertyChanged();
 
+                //First topic is always 'new topic' 
                 if (topicIndex == 0) EnableNewTopicNameInput = true;
                 else EnableNewTopicNameInput = false;
             }
         }
 
+        //Enables field that takes the name of the new topic
         public bool EnableNewTopicNameInput
         {
             get => enableNewTopicNameInput;
@@ -130,8 +145,5 @@ namespace SOFT262.Creation
                 Topics = value;
             }
         }
-
-        public ICommand CreateCard { get; private set; }
-
     }
 }
