@@ -6,8 +6,6 @@ namespace SOFT262.Model
     [Table("RevisionCards")]
     public class RevisionCardSQL
     {
-        public string TopicName;
-
         public string Topic { get; set; }
 
         [MaxLength(250), Unique]

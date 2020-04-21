@@ -19,6 +19,7 @@ namespace SOFT262
             revisionCards = new SQLConnection(dbPath);
 
             InitializeComponent();
+            debug = revisionCards.GetAllCards();
 
             MainPage = new TopLevelPage();
         }
