@@ -5,8 +5,6 @@ using Xamarin.Forms;
 using SOFT262.Creation;
 using SOFT262.Manage;
 using SOFT262.Summary;
-using SOFT262.Model;
-using SOFT262.TabbedPages.Creation;
 
 namespace SOFT262
 {

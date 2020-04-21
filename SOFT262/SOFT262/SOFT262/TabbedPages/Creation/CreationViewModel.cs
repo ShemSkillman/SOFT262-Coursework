@@ -1,5 +1,5 @@
 ﻿using SOFT262.Model;
-using SOFT262.TabbedPages.Creation;
+using SOFT262.MVVM;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,10 +10,8 @@ using Xamarin.Forms;
 
 namespace SOFT262.Creation
 {
-    public class CreationViewModel : INotifyPropertyChanged
+    public class CreationViewModel : ViewModelBase
     {
-        MainModel model;
-
         int topicIndex = -1;
 
         //Only true when creating a new topic
@@ -24,15 +22,10 @@ namespace SOFT262.Creation
         string question = "";
         string answer = "";
 
-        public event PropertyChangedEventHandler PropertyChanged;
         public ICommand CreateCard { get; private set; }
 
-        public CreationViewModel(ICreationPageHelper p)
+        public CreationViewModel(IPageHelper p) : base(p)
         {
-            var creationHelper = p;
-            model = MainModel.Instance;
-            model.PropertyChanged += OnPropertyChanged;
-
             TopicIndex = 0;
 
             //Set execute code when calling the create card command
@@ -53,21 +46,9 @@ namespace SOFT262.Creation
                 //Ensures that last selected topic remains selected
                 TopicIndex = Topics.IndexOf(topic);
 
-                await creationHelper.MessagePopup("Card created", "Revision card has been created and added to topic " + topic);
+                await p.MessagePopup("Card created", "Revision card has been created and added to topic " + topic);
             });
-        }
-
-        //Called when property changes in the model
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            OnPropertyChanged(e.PropertyName);
-        }
-
-        //Called from within the viewmodel when a property changes
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        }        
 
         public int TopicIndex
         {

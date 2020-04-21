@@ -1,5 +1,5 @@
 ﻿using SOFT262.Model;
-using SOFT262.TabbedPages.Creation;
+using SOFT262.MVVM;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ using Xamarin.Forms.Xaml;
 namespace SOFT262.Creation
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class CreationPage : ContentPage, ICreationPageHelper
+    public partial class CreationPage : ContentPage, IPageHelper
     {
         public CreationPage()
         {
@@ -20,7 +20,6 @@ namespace SOFT262.Creation
 
             BindingContext = new CreationViewModel(this);
         }
-        //INavigation IPage.NavigationProxy { get => Navigation; }
 
         public async Task MessagePopup(string messageTitle, string message)
         {

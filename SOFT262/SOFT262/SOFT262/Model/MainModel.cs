@@ -41,11 +41,12 @@ namespace SOFT262.Model
             get
             {
                 var topicNames = new List<string>();
+                topicNames = GetTopicsList();
 
-                foreach (var topicName in revisionGroups.Keys)
-                {
-                    topicNames.Add(topicName);
-                }
+                //foreach (var topicName in revisionGroups.Keys)
+                //{
+                //    topicNames.Add(topicName);
+                //}
 
                 topicNames.Sort();
                 return topicNames;

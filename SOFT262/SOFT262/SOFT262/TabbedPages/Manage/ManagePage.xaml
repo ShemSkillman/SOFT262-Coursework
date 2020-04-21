@@ -10,9 +10,15 @@
     <ContentPage.Content>
         <StackLayout>
             <Label Text="This is the Manage page."
-                FontSize="Header"
+                FontSize="Small"
                 VerticalOptions="Start" 
                 HorizontalOptions="CenterAndExpand" />
+
+            <ListView ItemsSource="{Binding RevisionGroups}"
+                      VerticalOptions="FillAndExpand"
+                      HorizontalOptions="Center">                
+            </ListView>
+                      
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
