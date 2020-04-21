@@ -88,7 +88,7 @@ namespace SOFT262.Model
                     {
                         topicList.Add(result);
                     }
-                    
+
                 }
             }
             return topicList;

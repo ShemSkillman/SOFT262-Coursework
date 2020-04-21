@@ -16,7 +16,7 @@ namespace SOFT262
         public static SQLConnection revisionCards { get; private set; }
         public App()
         {
-            //revisionCards = new SQLConnection(dbPath);
+            revisionCards = new SQLConnection(dbPath);
 
             InitializeComponent();
 

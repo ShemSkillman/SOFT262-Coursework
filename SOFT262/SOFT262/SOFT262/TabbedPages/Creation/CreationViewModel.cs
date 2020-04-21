@@ -36,7 +36,7 @@ namespace SOFT262.Creation
                 if (TopicIndex != 0) topic = Topics[TopicIndex]; //Add to existing topic
                 else topic = TopicName; //Add to new topic
 
-                model.CreateCard(topic, question, answer);
+                model.CreateCardInSQL(topic, question, answer);
 
                 //Clear fields
                 TopicName = "";
@@ -117,7 +117,7 @@ namespace SOFT262.Creation
         {
             get
             {
-                List<string> topics = model.Topics;
+                List<string> topics = model.GetTopicsList();
                 topics.Insert(0, "New Topic");
                 return topics;
             }
