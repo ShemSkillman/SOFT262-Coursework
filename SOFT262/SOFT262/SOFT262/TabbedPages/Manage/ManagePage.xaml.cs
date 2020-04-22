@@ -20,9 +20,9 @@ namespace SOFT262.Manage
             BindingContext = new ManageViewModel(this);
         }
 
-        public Task MessagePopup(string messageTitle, string message)
+        public async Task MessagePopup(string messageTitle, string message)
         {
-            throw new NotImplementedException();
+            await DisplayAlert(messageTitle, message, "OK");
         }
     }
 }

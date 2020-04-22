@@ -57,18 +57,6 @@ namespace SOFT262.Creation
             });
         }
 
-        protected override void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals(nameof(model.AllTopics))) //If all topics updated then update topic names
-            {
-                OnPropertyChanged(nameof(TopicNames));
-            }
-            else
-            {
-                OnPropertyChanged(e.PropertyName);
-            }            
-        }
-
         public int TopicIndex
         {
             get => topicIndex;
@@ -146,6 +134,11 @@ namespace SOFT262.Creation
                 topicNames.Insert(0, "New Topic");
                 return topicNames;
             }
+        }
+
+        protected override void RefreshUI()
+        {
+            OnPropertyChanged(nameof(TopicNames));
         }
     }
 }

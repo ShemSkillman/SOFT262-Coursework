@@ -10,14 +10,15 @@ namespace SOFT262.Model
     class DataModel
     {
         const string fileName = "RevisionCards2.db3";
-        string dbPath => System.IO.Path.Combine(FileSystem.AppDataDirectory, fileName);
-        SQLiteConnection conn;
+        string DbPath => System.IO.Path.Combine(FileSystem.AppDataDirectory, fileName);
+
+        readonly SQLiteConnection conn;
 
         public Dictionary<TopicSQL, ObservableCollection<RevisionCardSQL>> RevisionGroups { get; private set; }
 
         public DataModel()
         {
-            conn = new SQLiteConnection(dbPath);
+            conn = new SQLiteConnection(DbPath);
 
             conn.CreateTable<RevisionCardSQL>();
             conn.CreateTable<TopicSQL>();

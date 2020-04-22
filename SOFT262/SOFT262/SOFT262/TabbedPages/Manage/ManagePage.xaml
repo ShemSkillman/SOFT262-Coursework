@@ -14,9 +14,19 @@
                 VerticalOptions="Start" 
                 HorizontalOptions="CenterAndExpand" />
 
-            <ListView ItemsSource="{Binding Topics}"
+            <ListView ItemsSource="{Binding AllTopics}"
+                      x:Name="TopicsListView"
                       VerticalOptions="FillAndExpand"
-                      HorizontalOptions="Center">                
+                      HorizontalOptions="Center">
+                
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding TopicName}"
+                                  Detail="{Binding CardCount, StringFormat='Revision card count: {0}'}">
+                        </TextCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                
             </ListView>
                       
         </StackLayout>

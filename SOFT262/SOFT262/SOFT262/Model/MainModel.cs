@@ -9,10 +9,10 @@ using Xamarin.Essentials;
 
 namespace SOFT262.Model
 {
-    public class MainModel : INotifyPropertyChanged
+    public class MainModel
     {
         private static MainModel instance;
-        private DataModel dataModel;
+        private readonly DataModel dataModel;
 
         public static MainModel Instance { get
             {
@@ -27,9 +27,10 @@ namespace SOFT262.Model
             dataModel = new DataModel();
 
             AllTopics = new ObservableCollection<TopicSQL>(dataModel.RevisionGroups.Keys);
-        }                
+        }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public delegate void DataUpdated();
+        public event DataUpdated OnUpdate;
 
         public ObservableCollection<TopicSQL> AllTopics { get; private set; }
 
@@ -58,6 +59,8 @@ namespace SOFT262.Model
                 if (topic == null) AddNewTopic(topicName);
 
                 dataModel.SaveCard(newRevisionCard);
+
+                OnUpdate?.Invoke();
             }
             catch (Exception ex)
             {
@@ -83,16 +86,14 @@ namespace SOFT262.Model
                 topic = new TopicSQL { TopicName = topicName };
                 dataModel.SaveTopic(topic);
 
-                AllTopics.Add(topic); 
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AllTopics)));
+                AllTopics.Add(topic); // Update all topics list
+                OnUpdate?.Invoke();
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-        }
-
-        
+        }        
 
         public void DeleteTopic(string topicName)
         {
@@ -101,8 +102,8 @@ namespace SOFT262.Model
                 var topic = GetTopicByName(topicName);
                 dataModel.SaveDeleteTopic(topic);
 
-                AllTopics.Remove(topic);
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AllTopics)));
+                AllTopics.Remove(topic); // Update all topics list
+                OnUpdate?.Invoke();
             }
             catch(Exception ex)
             {
@@ -115,6 +116,7 @@ namespace SOFT262.Model
             try
             {
                 dataModel.SaveDeleteCard(cardToRemove);
+                OnUpdate?.Invoke();
             }
             catch (Exception ex)
             {
@@ -139,6 +141,8 @@ namespace SOFT262.Model
                 revisionCard.Answer = newAnswer;
 
                 dataModel.SaveCard(revisionCard);
+
+                OnUpdate?.Invoke();
             }
             catch (Exception ex)
             {

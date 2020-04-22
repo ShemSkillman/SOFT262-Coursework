@@ -4,19 +4,18 @@ using System.ComponentModel;
 using System.Text;
 using Xamarin.Forms;
 using SOFT262.Model;
+using SOFT262.MVVM;
 
 namespace SOFT262.Summary
 {
-    public class SummaryViewModel : INotifyPropertyChanged
+    public class SummaryViewModel : ViewModelBase
     {
-        private MainModel model;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public SummaryViewModel()
+        public SummaryViewModel(IPageHelper p) : base(p)
         {
-            model = MainModel.Instance;
+        }
 
+        protected override void RefreshUI()
+        {
         }
     }
 }
