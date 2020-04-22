@@ -28,25 +28,34 @@ namespace SOFT262.Creation
         {
             TopicIndex = 0;
 
+
             //Set execute code when calling the create card command
             //Resets input fields and creates card in model
             CreateCard = new Command(execute: async () =>
             {                
-                string topic;
-                if (TopicIndex != 0) topic = Topics[TopicIndex]; //Add to existing topic
-                else topic = TopicName; //Add to new topic
+                try
+                {
+                    string topic;
+                    if (TopicIndex != 0) topic = TopicNames[TopicIndex]; //Add to existing topic
+                    else topic = TopicName; //Add to new topic
 
-                model.CreateCardInSQL(topic, question, answer);
+                    model.AddNewCard(topic, question, answer);
+                    OnPropertyChanged(nameof(TopicNames));
 
-                //Clear fields
-                TopicName = "";
-                Question = "";
-                Answer = "";
+                    //Clear fields
+                    TopicName = "";
+                    Question = "";
+                    Answer = "";
 
-                //Ensures that last selected topic remains selected
-                TopicIndex = Topics.IndexOf(topic);
+                    //Ensures that last selected topic remains selected
+                    TopicIndex = TopicNames.IndexOf(topic);
 
-                await p.MessagePopup("Card created", "Revision card has been created and added to topic " + topic);
+                    await p.MessagePopup("Card created", "Revision card has been created and added to topic " + topic);
+                }
+                catch (Exception ex)
+                {
+                    await p.MessagePopup("Error occurred", "Error: " + ex.Message);
+                }
             });
         }        
 
@@ -113,17 +122,13 @@ namespace SOFT262.Creation
             }
         }
 
-        public List<string> Topics
+        public List<string> TopicNames
         {
             get
             {
-                List<string> topics = model.GetTopicsList();
-                topics.Insert(0, "New Topic");
-                return topics;
-            }
-            set
-            {
-                Topics = value;
+                var topicNames = model.TopicNames;
+                topicNames.Insert(0, "New Topic");
+                return topicNames;
             }
         }
     }

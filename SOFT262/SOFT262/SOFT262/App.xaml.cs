@@ -10,16 +10,9 @@ namespace SOFT262
 {
     public partial class App : Application
     {
-        public List<string> topicList = new List<string>();
-        string dbPath => System.IO.Path.Combine(FileSystem.AppDataDirectory, "RevisionCards1.db3");
-        public List<RevisionCardSQL> debug;
-        public static SQLConnection revisionCards { get; private set; }
         public App()
         {
-            revisionCards = new SQLConnection(dbPath);
-
             InitializeComponent();
-            debug = revisionCards.GetAllCards();
 
             MainPage = new TopLevelPage();
         }

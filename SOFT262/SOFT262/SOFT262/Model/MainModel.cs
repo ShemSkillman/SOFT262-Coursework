@@ -1,14 +1,21 @@
 ﻿using SOFT262.Creation;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using Xamarin.Essentials;
 
 namespace SOFT262.Model
 {
-    public class MainModel : INotifyPropertyChanged
+    public class MainModel
     {
         private static MainModel instance;
+
+        const string fileName = "RevisionCards1.db3";
+        string dbPath => System.IO.Path.Combine(FileSystem.AppDataDirectory, fileName);
+        SQLiteConnection conn; 
+        TableMapping cardsMapping, topicsMapping;
 
         public static MainModel Instance { get
             {
@@ -18,98 +25,131 @@ namespace SOFT262.Model
             }
         }
 
-        Dictionary<string, List<RevisionCard>> revisionGroups;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public MainModel()
         {
-            revisionGroups = new Dictionary<string, List<RevisionCard>>();
+            conn = new SQLiteConnection(dbPath); 
+
+            conn.CreateTable<RevisionCardSQL>();
+            conn.CreateTable<TopicSQL>();
+
+            cardsMapping = conn.GetMapping(typeof(RevisionCardSQL));
+            topicsMapping = conn.GetMapping(typeof(TopicSQL));
         }
 
-        public void CreateRevisionGroup(string topic)
-        {
-            if (revisionGroups.ContainsKey(topic)) return;
-
-            revisionGroups.Add(topic, new List<RevisionCard>());
-
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Topics)));
-        }
-
-        public List<string> Topics
+        public List<string> TopicNames
         {
             get
             {
-                var topicNames = new List<string>();
-                topicNames = GetTopicsList();
+                List<string> topicNames = new List<string>();
+                foreach(var topic in conn.Table<TopicSQL>().ToList())
+                {
+                    topicNames.Add(topic.Topic);
+                }
 
-                //foreach (var topicName in revisionGroups.Keys)
-                //{
-                //    topicNames.Add(topicName);
-                //}
-
-                topicNames.Sort();
                 return topicNames;
             }
         }
-        public void CreateCard(string topic, string question, string answer)
+
+        public void AddNewCard(string topicName, string question, string answer)
         {
-            CreateRevisionGroup(topic);
-
-            RevisionCard newCard = new RevisionCard(topic, question, answer);
-            revisionGroups[topic].Add(newCard);
-        }
-
-        //**********************************************************SQLITE FUNCTIONS******************************************************
-
-        public List<RevisionCardSQL> RevisionCardsList
-        {
-
-            get
+            try
             {
-                return RevisionCardsList;
-
-            }
-            set
-            {
-                App.revisionCards.GetAllCards();
-            }
-        }
-        public List<string> GetTopicsList() //Script to return the list of unique topics
-        {
-            var debug = App.revisionCards.GetAllCards();
-            List<string> topicList = new List<string>();
-            for (int i = 0; i < debug.Count; i++)
-            {
-                string result = debug[i].Topic.ToString();
-                if (!topicList.Contains(result)) //Searches if the result is NOT in the main method
+                if (string.IsNullOrWhiteSpace(topicName) || string.IsNullOrWhiteSpace(question) || string.IsNullOrWhiteSpace(answer))
                 {
-                    if (result != null)
+                    throw new Exception("Topic, Question or Answer not filled in correctly!");
+                }
+
+                conn.Insert(new RevisionCardSQL { Topic = topicName, Question = question, Answer = answer });
+
+                var topicObj = AddNewTopic(topicName);
+                topicObj.CardCount++;
+                conn.Update(topicObj);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public TopicSQL AddNewTopic(string topicName)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(topicName))
+                {
+                    throw new Exception("Topic not filled in correctly!");
+                }
+
+                var topic = conn.Find(topicName, topicsMapping) as TopicSQL;
+                if (topic != null) return topic;
+
+                topic = new TopicSQL { Topic = topicName };
+                conn.Insert(topic);
+                return topic;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public void DeleteTopic(string topicName)
+        {
+            try
+            {
+                conn.Delete(topicName, topicsMapping);
+
+                List<RevisionCardSQL> cardsToBeDeleted = new List<RevisionCardSQL>();
+
+                var allRevisionCards = conn.Table<RevisionCardSQL>().ToList();
+                foreach(var revisionCard in allRevisionCards)
+                {
+                    if (revisionCard.Topic.Equals(topicName))
                     {
-                        topicList.Add(result);
+                        conn.Delete(revisionCard);
                     }
-
-                }
+                }                
             }
-            return topicList;
-        }
-        public void CreateCardInSQL(string topic, string question, string answer)
-        {
-            App.revisionCards.AddNewCard(topic, question, answer);
-        }
-
-        public Dictionary<string, string> GetAllQuestionsAnswersByTopic(string topic) //Returns a list of questions
-        {
-            var allCards = App.revisionCards.GetAllCards();
-            Dictionary<string, string> questionAnswers = new Dictionary<string, string>();
-            for (int i = 0; i < allCards.Count; i++)
+            catch(Exception ex)
             {
-                if (allCards[i].Question != null && allCards[i].Answer != null && allCards[i].Topic == topic)
-                {
-                    questionAnswers.Add(allCards[i].Question, allCards[i].Answer);
-                }
+                throw ex;
+            }            
+        }
+
+        public void DeleteCard(RevisionCardSQL cardToRemove)
+        {
+            try
+            {
+                conn.Delete(cardToRemove);
+                var topic = conn.Find(cardToRemove.Topic, topicsMapping) as TopicSQL;
+                topic.CardCount--;
             }
-            return questionAnswers;
+            catch (Exception ex)
+            {
+                throw ex;
+            }            
+        }
+
+        public void ModifyCard(RevisionCardSQL revisionCard, string newTopic, 
+            string newQuestion, string newAnswer)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(newTopic) || string.IsNullOrWhiteSpace(newQuestion) || string.IsNullOrWhiteSpace(newAnswer))
+                {
+                    throw new Exception("Topic, Question or Answer not filled in correctly!");
+                }
+
+                revisionCard.Topic = newTopic;
+                revisionCard.Question = newQuestion;
+                revisionCard.Answer = newAnswer;
+
+                conn.Update(revisionCard);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

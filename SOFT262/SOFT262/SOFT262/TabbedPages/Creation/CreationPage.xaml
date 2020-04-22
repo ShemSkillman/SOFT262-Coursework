@@ -51,7 +51,7 @@
             <Picker Grid.Row="1" Grid.Column="1"
                     VerticalOptions="CenterAndExpand"
                     HorizontalOptions="FillAndExpand"
-                    ItemsSource="{Binding Topics, Mode=OneWay}"
+                    ItemsSource="{Binding TopicNames, Mode=OneWay}"
                     SelectedIndex="{Binding TopicIndex, Mode=TwoWay}"
                     x:Name="listTopics"/>
 

@@ -9,29 +9,21 @@ namespace SOFT262.Manage
 {
     public class ManageViewModel : ViewModelBase
     {
-        ObservableCollection<RevisionGroup> revisionGroups;
+        ObservableCollection<TopicSQL> topics;
 
         public ManageViewModel(IPageHelper p) : base(p)
         {
 
         }
 
-        public ObservableCollection<RevisionGroup> RevisionGroups
+        public ObservableCollection<TopicSQL> Topics
         {
-            get => revisionGroups;
+            get => topics;
             set
             {
-                if (value == revisionGroups) return;
-                revisionGroups = value;
+                if (value == topics) return;
+                topics = value;
             }
         }
-    }
-
-    public class RevisionGroup
-    {
-        public string Topic { get; set; }
-        public int CardCount { get; set; }
-
-        public RevisionGroup(string topic, int cardCount) => (Topic, CardCount) = (topic, cardCount);
     }
 }
