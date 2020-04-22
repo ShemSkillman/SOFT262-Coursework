@@ -8,8 +8,8 @@ namespace SOFT262.Model
     [Table("Topics")]
     public class TopicSQL
     {
-        [PrimaryKey, Unique]
-        public string Topic { get; set; }
+        [PrimaryKey]
+        public string TopicName { get; set; }
         public int CardCount { get; set; } = 0;
     }
 }

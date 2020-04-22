@@ -6,7 +6,7 @@ namespace SOFT262.Model
     [Table("RevisionCards")]
     public class RevisionCardSQL
     {
-        [PrimaryKey, AutoIncrement, Ignore]
+        [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
         public string Topic { get; set; }
 

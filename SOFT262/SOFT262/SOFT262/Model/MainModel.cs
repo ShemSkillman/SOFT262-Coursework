@@ -2,20 +2,17 @@
 using SQLite;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
 using Xamarin.Essentials;
 
 namespace SOFT262.Model
 {
-    public class MainModel
+    public class MainModel : INotifyPropertyChanged
     {
         private static MainModel instance;
-
-        const string fileName = "RevisionCards1.db3";
-        string dbPath => System.IO.Path.Combine(FileSystem.AppDataDirectory, fileName);
-        SQLiteConnection conn; 
-        TableMapping cardsMapping, topicsMapping;
+        private DataModel dataModel;
 
         public static MainModel Instance { get
             {
@@ -27,27 +24,23 @@ namespace SOFT262.Model
 
         public MainModel()
         {
-            conn = new SQLiteConnection(dbPath); 
+            dataModel = new DataModel();
 
-            conn.CreateTable<RevisionCardSQL>();
-            conn.CreateTable<TopicSQL>();
+            AllTopics = new ObservableCollection<TopicSQL>(dataModel.RevisionGroups.Keys);
+        }                
 
-            cardsMapping = conn.GetMapping(typeof(RevisionCardSQL));
-            topicsMapping = conn.GetMapping(typeof(TopicSQL));
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public ObservableCollection<TopicSQL> AllTopics { get; private set; }
+
+        public ObservableCollection<RevisionCardSQL> GetRevisionCardsOfTopic(TopicSQL topic)
+        {
+            return dataModel.RevisionGroups[topic];
         }
 
-        public List<string> TopicNames
+        public TopicSQL GetTopicByName(string topicName)
         {
-            get
-            {
-                List<string> topicNames = new List<string>();
-                foreach(var topic in conn.Table<TopicSQL>().ToList())
-                {
-                    topicNames.Add(topic.Topic);
-                }
-
-                return topicNames;
-            }
+            return dataModel.GetTopicByName(topicName);
         }
 
         public void AddNewCard(string topicName, string question, string answer)
@@ -59,11 +52,12 @@ namespace SOFT262.Model
                     throw new Exception("Topic, Question or Answer not filled in correctly!");
                 }
 
-                conn.Insert(new RevisionCardSQL { Topic = topicName, Question = question, Answer = answer });
+                var newRevisionCard = new RevisionCardSQL { Topic = topicName, Question = question, Answer = answer };
 
-                var topicObj = AddNewTopic(topicName);
-                topicObj.CardCount++;
-                conn.Update(topicObj);
+                var topic = GetTopicByName(topicName);
+                if (topic == null) AddNewTopic(topicName);
+
+                dataModel.SaveCard(newRevisionCard);
             }
             catch (Exception ex)
             {
@@ -71,7 +65,7 @@ namespace SOFT262.Model
             }
         }
 
-        public TopicSQL AddNewTopic(string topicName)
+        public void AddNewTopic(string topicName)
         {
             try
             {
@@ -80,12 +74,17 @@ namespace SOFT262.Model
                     throw new Exception("Topic not filled in correctly!");
                 }
 
-                var topic = conn.Find(topicName, topicsMapping) as TopicSQL;
-                if (topic != null) return topic;
+                var topic = GetTopicByName(topicName);
+                if (topic != null)
+                {
+                    throw new Exception("Topic of name " + topicName + " already exists!");
+                }
+                
+                topic = new TopicSQL { TopicName = topicName };
+                dataModel.SaveTopic(topic);
 
-                topic = new TopicSQL { Topic = topicName };
-                conn.Insert(topic);
-                return topic;
+                AllTopics.Add(topic); 
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AllTopics)));
             }
             catch (Exception ex)
             {
@@ -93,22 +92,17 @@ namespace SOFT262.Model
             }
         }
 
+        
+
         public void DeleteTopic(string topicName)
         {
             try
             {
-                conn.Delete(topicName, topicsMapping);
+                var topic = GetTopicByName(topicName);
+                dataModel.SaveDeleteTopic(topic);
 
-                List<RevisionCardSQL> cardsToBeDeleted = new List<RevisionCardSQL>();
-
-                var allRevisionCards = conn.Table<RevisionCardSQL>().ToList();
-                foreach(var revisionCard in allRevisionCards)
-                {
-                    if (revisionCard.Topic.Equals(topicName))
-                    {
-                        conn.Delete(revisionCard);
-                    }
-                }                
+                AllTopics.Remove(topic);
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AllTopics)));
             }
             catch(Exception ex)
             {
@@ -120,9 +114,7 @@ namespace SOFT262.Model
         {
             try
             {
-                conn.Delete(cardToRemove);
-                var topic = conn.Find(cardToRemove.Topic, topicsMapping) as TopicSQL;
-                topic.CardCount--;
+                dataModel.SaveDeleteCard(cardToRemove);
             }
             catch (Exception ex)
             {
@@ -140,11 +132,13 @@ namespace SOFT262.Model
                     throw new Exception("Topic, Question or Answer not filled in correctly!");
                 }
 
+                dataModel.SaveDeleteCard(revisionCard);
+
                 revisionCard.Topic = newTopic;
                 revisionCard.Question = newQuestion;
                 revisionCard.Answer = newAnswer;
 
-                conn.Update(revisionCard);
+                dataModel.SaveCard(revisionCard);
             }
             catch (Exception ex)
             {

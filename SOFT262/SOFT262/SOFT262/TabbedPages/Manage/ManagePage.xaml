@@ -14,7 +14,7 @@
                 VerticalOptions="Start" 
                 HorizontalOptions="CenterAndExpand" />
 
-            <ListView ItemsSource="{Binding RevisionGroups}"
+            <ListView ItemsSource="{Binding Topics}"
                       VerticalOptions="FillAndExpand"
                       HorizontalOptions="Center">                
             </ListView>

@@ -18,10 +18,11 @@ namespace SOFT262.MVVM
         {
             pageHelper = p;
             model = MainModel.Instance;
+            model.PropertyChanged += OnPropertyChanged;
         }
 
         //Called when property changes in the model
-        protected void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected virtual void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             OnPropertyChanged(e.PropertyName);
         }

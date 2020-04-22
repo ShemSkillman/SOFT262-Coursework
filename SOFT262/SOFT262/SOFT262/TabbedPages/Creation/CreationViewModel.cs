@@ -28,7 +28,6 @@ namespace SOFT262.Creation
         {
             TopicIndex = 0;
 
-
             //Set execute code when calling the create card command
             //Resets input fields and creates card in model
             CreateCard = new Command(execute: async () =>
@@ -40,7 +39,6 @@ namespace SOFT262.Creation
                     else topic = TopicName; //Add to new topic
 
                     model.AddNewCard(topic, question, answer);
-                    OnPropertyChanged(nameof(TopicNames));
 
                     //Clear fields
                     TopicName = "";
@@ -57,7 +55,19 @@ namespace SOFT262.Creation
                     await p.MessagePopup("Error occurred", "Error: " + ex.Message);
                 }
             });
-        }        
+        }
+
+        protected override void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName.Equals(nameof(model.AllTopics))) //If all topics updated then update topic names
+            {
+                OnPropertyChanged(nameof(TopicNames));
+            }
+            else
+            {
+                OnPropertyChanged(e.PropertyName);
+            }            
+        }
 
         public int TopicIndex
         {
@@ -126,7 +136,13 @@ namespace SOFT262.Creation
         {
             get
             {
-                var topicNames = model.TopicNames;
+                var topics = model.AllTopics;
+                List<string> topicNames = new List<string>();
+                foreach (var topic in topics)
+                {
+                    topicNames.Add(topic.TopicName);
+                }
+
                 topicNames.Insert(0, "New Topic");
                 return topicNames;
             }

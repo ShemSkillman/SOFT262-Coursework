@@ -9,21 +9,15 @@ namespace SOFT262.Manage
 {
     public class ManageViewModel : ViewModelBase
     {
-        ObservableCollection<TopicSQL> topics;
 
         public ManageViewModel(IPageHelper p) : base(p)
         {
 
         }
 
-        public ObservableCollection<TopicSQL> Topics
-        {
-            get => topics;
-            set
-            {
-                if (value == topics) return;
-                topics = value;
-            }
-        }
+        //public ObservableCollection<TopicSQL> Topics
+        //{
+            
+        //}
     }
 }
