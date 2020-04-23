@@ -78,7 +78,7 @@ namespace SOFT262.Model
                 RevisionGroups[topic].Add(revisionCard);
                 conn.Insert(revisionCard);
 
-                topic.CardCount++;
+                topic.CardCount += 1;
                 SaveTopic(topic); // Save topic card count increase
             }
         }
@@ -104,7 +104,7 @@ namespace SOFT262.Model
             RevisionGroups[topic].Remove(revisionCard);
             conn.Delete(revisionCard);
 
-            topic.CardCount--;
+            topic.CardCount -= 1;
             SaveTopic(topic); //Save topic card count decrease
         }
     }
