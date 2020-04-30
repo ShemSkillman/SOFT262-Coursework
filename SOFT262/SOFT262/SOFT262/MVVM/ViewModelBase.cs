@@ -14,7 +14,6 @@ namespace SOFT262.MVVM
         readonly IPageHelper pageHelper;
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
 
         public ViewModelBase(IPageHelper p)
         {

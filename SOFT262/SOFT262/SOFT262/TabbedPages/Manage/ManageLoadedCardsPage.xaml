@@ -8,20 +8,57 @@
     <ContentPage.Content>
         <StackLayout>
             <Label Text="Summary of chosen topic"
-                VerticalOptions="CenterAndExpand" 
+                VerticalOptions="Start" 
                 HorizontalOptions="CenterAndExpand" />
             <ListView ItemsSource="{Binding RevisionCards}"
                       x:Name="TopicsListView"
                       VerticalOptions="FillAndExpand"
-                      HorizontalOptions="Center">
+                      HorizontalOptions="Center"
+                      SelectedItem="{Binding SelectedRevisionCard}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextCell Text="{Binding Question}"
-                                  Detail="{Binding Answer}">
+                        <TextCell Text="{Binding Question, StringFormat='Question: {0}'}"
+                                  Detail="{Binding Answer, StringFormat='Answer: {0}'}">
                         </TextCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+
+            <Grid Padding="20,20,20,20"
+                  HorizontalOptions="FillAndExpand"
+                  VerticalOptions="End">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button IsVisible="{Binding IsVisible}"
+                        Text="Modify"
+                        Grid.Row="0"
+                        Grid.Column="0">
+                </Button>
+
+                <Button IsVisible="{Binding IsVisible}"
+                        Text="Delete"
+                        Grid.Row="0"
+                        Grid.Column="1">
+                </Button>
+
+                <Button IsVisible="{Binding IsVisible}"
+                        Text="Cancel"
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Command="{Binding CancelCommand}">
+                </Button>
+
+            </Grid>
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
