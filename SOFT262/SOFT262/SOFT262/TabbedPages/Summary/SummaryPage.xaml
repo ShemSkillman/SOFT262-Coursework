@@ -9,18 +9,37 @@
              IconImageSource="baseline_menu_book_black_48dp.png">
     <ContentPage.Content>
         <StackLayout>
+
             <Label Text="Welcome to the revision page."
                    FontSize="Large"
                 VerticalOptions="Start" 
                 HorizontalOptions="CenterAndExpand" />
             <Label Text="Please choose a group of cards to revise from."
                    FontSize="Medium"
-                   VerticalOptions="Fill"
+                   VerticalOptions="Start"
                    HorizontalOptions="CenterAndExpand"
                    />
-            <ListView HorizontalOptions="Center"
-                      VerticalOptions="CenterAndExpand"
-                      />
+            <Picker Grid.Row="1" Grid.Column="1"
+                    Title="Tap to select a topic"
+                    VerticalOptions="Start"
+                    HorizontalOptions="Center"
+                    ItemsSource="{Binding TopicNames, Mode=OneWay}"
+                    SelectedItem="{Binding SelectedTopic}"
+                    SelectedIndex="{Binding TopicIndex}"
+                    SelectedIndexChanged="listTopics_SelectedIndexChanged"
+                    x:Name="listTopics"/>
+            <ListView ItemsSource="{Binding revisionCards}"
+                      x:Name="TopicsListView"
+                      VerticalOptions="FillAndExpand"
+                      HorizontalOptions="Center">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding Topic}"
+                                  Detail="{Binding Question}">
+                        </TextCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
