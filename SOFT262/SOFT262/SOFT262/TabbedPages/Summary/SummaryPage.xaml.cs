@@ -27,10 +27,5 @@ namespace SOFT262.Summary
         {
             throw new NotImplementedException();
         }
-
-        private void listTopics_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            vm.TopicChosen();
-        }
     }
 }

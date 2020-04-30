@@ -16,13 +16,25 @@ namespace SOFT262.Summary
         private string selectedTopic;
         public SummaryViewModel(IPageHelper p) : base(p)
         {
+            TopicIndex = 0;
         }
 
         protected override void RefreshUI()
         {
+            OnPropertyChanged(nameof(RevisionCards));
         }
 
-        private ObservableCollection<RevisionCardSQL> revisionCards { get; set; }
+        public ObservableCollection<RevisionCardSQL> RevisionCards 
+        { 
+            get
+            {
+                if (selectedTopic == null) return null;
+
+                TopicSQL topic = model.GetTopicByName(selectedTopic);
+                return model.GetRevisionCardsOfTopic(topic);
+            }
+
+        }
 
 
 
@@ -63,14 +75,10 @@ namespace SOFT262.Summary
             {
                 if (selectedTopic == value) return;
                 selectedTopic = value;
+
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(RevisionCards));
             }
-        }
-        public void TopicChosen()
-        {
-            TopicSQL theTopic = model.GetTopicByName(selectedTopic);
-            revisionCards = model.GetRevisionCardsOfTopic(theTopic);
-            OnPropertyChanged();
         }
 
     }

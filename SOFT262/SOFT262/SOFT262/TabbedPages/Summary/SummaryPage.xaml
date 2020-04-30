@@ -25,10 +25,9 @@
                     HorizontalOptions="Center"
                     ItemsSource="{Binding TopicNames, Mode=OneWay}"
                     SelectedItem="{Binding SelectedTopic}"
-                    SelectedIndex="{Binding TopicIndex}"
-                    SelectedIndexChanged="listTopics_SelectedIndexChanged"
+                    SelectedIndex="{Binding TopicIndex, Mode=TwoWay}"
                     x:Name="listTopics"/>
-            <ListView ItemsSource="{Binding revisionCards}"
+            <ListView ItemsSource="{Binding RevisionCards}"
                       x:Name="TopicsListView"
                       VerticalOptions="FillAndExpand"
                       HorizontalOptions="Center">
