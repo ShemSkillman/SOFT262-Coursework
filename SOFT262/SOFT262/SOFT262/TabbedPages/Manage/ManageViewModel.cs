@@ -13,10 +13,11 @@ namespace SOFT262.Manage
 {
     public class ManageViewModel : ViewModelBase
     {
+        protected INavigation Navigation => Application.Current.MainPage.Navigation;
         int topicIndex = -1;
         public ManageViewModel(IPageHelper p) : base(p)
         {
-
+            
         }
 
         public ObservableCollection<TopicSQL> AllTopics { get => model.AllTopics; }
@@ -54,13 +55,12 @@ namespace SOFT262.Manage
             }
         }
         //Event handler for the tapped event
-        public async Task TopicModifyPage(TopicSQL topic)
+        public void TopicModifyPage(TopicSQL topic)
         {
-            ObservableCollection<RevisionCardSQL> revisionCards = model.GetRevisionCardsOfTopic(topic);
-            ManageLoadedCardsPage topicPage = new ManageLoadedCardsPage();
-            NavigationPage MainPage = new NavigationPage(topicPage);
-            await MainPage.PushAsync(MainPage);
-            //Create a new page based on the topicName being passed.
+            ManageLoadedCardsPage topicPage = new ManageLoadedCardsPage(topic); //Pass topic through to the next page, to get the cards in VM
+            //NavigationPage testPage = new NavigationPage(topicPage); //Creates a new navigation page
+            _ = Navigation.PushAsync(topicPage);
+            
         }
     }
 }

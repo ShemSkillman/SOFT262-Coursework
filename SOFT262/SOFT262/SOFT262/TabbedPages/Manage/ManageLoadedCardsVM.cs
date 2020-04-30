@@ -10,9 +10,9 @@ namespace SOFT262.TabbedPages.Manage
     class ManageLoadedCardsVM : ViewModelBase
     {
 
-        public ManageLoadedCardsVM(IPageHelper p) : base(p)
+        public ManageLoadedCardsVM(IPageHelper p, TopicSQL topic) : base(p)
         {
-
+            RevisionCards = model.GetRevisionCardsOfTopic(topic);
         }
 
         protected override void RefreshUI()

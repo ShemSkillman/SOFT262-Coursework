@@ -14,7 +14,7 @@ namespace SOFT262
         {
             InitializeComponent();
 
-            MainPage = new TopLevelPage();
+            MainPage = new NavigationPage(new TopLevelPage());
         }
 
         protected override void OnStart()

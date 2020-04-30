@@ -14,6 +14,13 @@
                       x:Name="TopicsListView"
                       VerticalOptions="FillAndExpand"
                       HorizontalOptions="Center">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding Question}"
+                                  Detail="{Binding Answer}">
+                        </TextCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
         </StackLayout>
     </ContentPage.Content>
