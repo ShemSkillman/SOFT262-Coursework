@@ -9,8 +9,8 @@
              IconImageSource="baseline_build_black_48dp.png">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="This is the Manage page."
-                FontSize="Small"
+            <Label Text="This is the Manage page. If there is nothing here, create a revision card!"
+                FontSize="Medium"
                 VerticalOptions="Start" 
                 HorizontalOptions="CenterAndExpand" />
 
@@ -18,7 +18,7 @@
                       x:Name="TopicsListView"
                       VerticalOptions="FillAndExpand"
                       HorizontalOptions="Center">
-                
+
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <TextCell Text="{Binding TopicName}"
@@ -26,9 +26,9 @@
                         </TextCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-                
+
             </ListView>
-                      
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
