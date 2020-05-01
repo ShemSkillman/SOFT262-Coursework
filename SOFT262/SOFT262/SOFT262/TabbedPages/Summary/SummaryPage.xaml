@@ -27,18 +27,35 @@
                     SelectedItem="{Binding SelectedTopic}"
                     SelectedIndex="{Binding TopicIndex, Mode=TwoWay}"
                     x:Name="listTopics"/>
-            <ListView ItemsSource="{Binding RevisionCards}"
-                      x:Name="TopicsListView"
-                      VerticalOptions="FillAndExpand"
-                      HorizontalOptions="Center">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <TextCell Text="{Binding Topic}"
-                                  Detail="{Binding Question}">
-                        </TextCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+            <StackLayout BackgroundColor="RoyalBlue" Margin="50" VerticalOptions="FillAndExpand">
+                <Label Text="{Binding DisplayText}"
+                FontSize="30"
+                       HorizontalOptions="CenterAndExpand"
+                       VerticalOptions="CenterAndExpand"
+                       VerticalTextAlignment="Center"
+                       HorizontalTextAlignment="Center"
+                 />
+
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding FlipCardCommand}"/>
+                </StackLayout.GestureRecognizers>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" Padding="20">
+                <Button Text="Last Card"
+                        FontSize="20"
+                        HorizontalOptions="Start"
+                        VerticalOptions="End"
+                        WidthRequest="125"
+                        Command="{Binding LastIndexCommand}"
+                />
+                <Button Text="Next Card"
+                        FontSize="20"
+                        HorizontalOptions="EndAndExpand"
+                        VerticalOptions="End"
+                        WidthRequest="125"
+                        Command="{Binding NextIndexCommand}"
+                        />
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
