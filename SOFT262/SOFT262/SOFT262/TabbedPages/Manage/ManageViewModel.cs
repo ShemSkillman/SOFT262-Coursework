@@ -57,8 +57,8 @@ namespace SOFT262.Manage
         //Event handler for the tapped event
         public void TopicModifyPage(TopicSQL topic)
         {
-            ManageLoadedCardsPage topicPage = new ManageLoadedCardsPage(topic); //Pass topic through to the next page, to get the cards in VM
-            //NavigationPage testPage = new NavigationPage(topicPage); //Creates a new navigation page
+            //Pass topic through to the next page, to get the cards in VM
+            ManageLoadedCardsPage topicPage = new ManageLoadedCardsPage(topic); 
             _ = Navigation.PushAsync(topicPage);
             
         }

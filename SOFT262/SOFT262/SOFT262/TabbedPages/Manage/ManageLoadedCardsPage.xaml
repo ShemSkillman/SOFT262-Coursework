@@ -14,7 +14,7 @@
                       x:Name="TopicsListView"
                       VerticalOptions="FillAndExpand"
                       HorizontalOptions="Center"
-                      SelectedItem="{Binding SelectedRevisionCard}">
+                      SelectedItem="{Binding SelectedRevisionCard, Mode=TwoWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <TextCell Text="{Binding Question, StringFormat='Question: {0}'}"
@@ -47,7 +47,8 @@
                 <Button IsVisible="{Binding IsVisible}"
                         Text="Delete"
                         Grid.Row="0"
-                        Grid.Column="1">
+                        Grid.Column="1"
+                        Command="{Binding DeleteCommand}">
                 </Button>
 
                 <Button IsVisible="{Binding IsVisible}"
