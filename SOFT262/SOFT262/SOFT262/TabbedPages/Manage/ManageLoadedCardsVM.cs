@@ -12,8 +12,11 @@ namespace SOFT262.TabbedPages.Manage
     class ManageLoadedCardsVM : ViewModelBase
     {
         public ICommand CancelCommand { get; set; }
+        public ICommand DeleteCommand { get; set; }
 
         private bool isVisible;
+
+        TopicSQL selectedTopic;
         public bool IsVisible
         {
             get => selectedRevisionCard != null;
@@ -28,29 +31,39 @@ namespace SOFT262.TabbedPages.Manage
         private RevisionCardSQL selectedRevisionCard;
         public RevisionCardSQL SelectedRevisionCard
         {
-            get => SelectedRevisionCard;
+            get => selectedRevisionCard;
             set
             {
                 if (selectedRevisionCard == value) return;
 
                 selectedRevisionCard = value;
+
                 OnPropertyChanged(nameof(IsVisible));
+                OnPropertyChanged();
             }
         }
 
         public ManageLoadedCardsVM(IPageHelper p, TopicSQL topic) : base(p)
         {
-            RevisionCards = model.GetRevisionCardsOfTopic(topic);
+            selectedTopic = topic;
 
             CancelCommand = new Command(execute: () => SelectedRevisionCard = null);
+
+            DeleteCommand = new Command(execute: () =>
+            {
+                model.DeleteCard(SelectedRevisionCard);
+            });
         }
 
         protected override void RefreshUI()
         {
-            throw new NotImplementedException();
+            OnPropertyChanged(nameof(RevisionCards));
         }
 
 
-        public ObservableCollection<RevisionCardSQL> RevisionCards { get; set; }
+        public ObservableCollection<RevisionCardSQL> RevisionCards
+        {
+            get => model.GetRevisionCardsOfTopic(selectedTopic);
+        }
     }
 }
