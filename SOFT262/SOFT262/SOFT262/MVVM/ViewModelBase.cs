@@ -5,13 +5,15 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
+using Xamarin.Forms;
 
 namespace SOFT262.MVVM
 {
     public abstract class ViewModelBase : INotifyPropertyChanged
     {
         protected MainModel model;
-        readonly IPageHelper pageHelper;
+        readonly IPageHelper pageHelper; 
+        protected INavigation Navigation => Application.Current.MainPage.Navigation;
 
         public event PropertyChangedEventHandler PropertyChanged;
 

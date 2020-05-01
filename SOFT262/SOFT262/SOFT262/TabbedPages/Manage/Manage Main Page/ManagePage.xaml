@@ -4,32 +4,46 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="SOFT262.TabbedPages.Manage.ManageLoadedCardsPage">
+             x:Class="SOFT262.Manage.ManagePage"
+             Title="Manage Cards"
+             IconImageSource="baseline_build_black_48dp.png">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Summary of chosen topic"
+            <Label Text="Topics"
+                FontSize="Large"
                 VerticalOptions="Start" 
                 HorizontalOptions="CenterAndExpand" />
-            <ListView ItemsSource="{Binding RevisionCards}"
-                      x:Name="TopicsListView"
+
+            <ListView ItemsSource="{Binding AllTopics}"
                       VerticalOptions="FillAndExpand"
                       HorizontalOptions="Center"
-                      SelectedItem="{Binding SelectedRevisionCard, Mode=TwoWay}">
+                      SelectedItem="{Binding SelectedTopic, Mode=TwoWay}">
+
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextCell Text="{Binding Question, StringFormat='Question: {0}'}"
-                                  Detail="{Binding Answer, StringFormat='Answer: {0}'}">
+                        <TextCell Text="{Binding TopicName}"
+                                  Detail="{Binding CardCount, StringFormat='Revision card count: {0}'}">
                         </TextCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
+
             </ListView>
+
+            <Label Text="Add topics by creating your first revision card on the 'Create Cards' tab"
+                   HorizontalTextAlignment="Center"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   FontSize="Medium"
+                   IsVisible="{Binding IsNoTopicsNoticeVisible}">
+            </Label>
 
             <Grid Padding="20,20,20,20"
                   HorizontalOptions="FillAndExpand"
-                  VerticalOptions="End">
+                  IsVisible="{Binding IsOptionsVisible}"
+                  BackgroundColor="LightGray">
 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
@@ -38,28 +52,29 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button IsVisible="{Binding IsVisible}"
-                        Text="Modify"
+                <Button Text="View Cards"
                         Grid.Row="0"
-                        Grid.Column="0">
+                        Grid.Column="0"
+                        Command="{Binding ViewCardsCommand}"
+                        BackgroundColor="SpringGreen">
                 </Button>
 
-                <Button IsVisible="{Binding IsVisible}"
-                        Text="Delete"
+                <Button Text="Delete"
                         Grid.Row="0"
                         Grid.Column="1"
-                        Command="{Binding DeleteCommand}">
+                        Command="{Binding DeleteCommand}"
+                        BackgroundColor="IndianRed">
                 </Button>
 
-                <Button IsVisible="{Binding IsVisible}"
-                        Text="Cancel"
+                <Button Text="Cancel"
                         Grid.Row="0"
                         Grid.Column="2"
-                        Command="{Binding CancelCommand}">
+                        Command="{Binding CancelCommand}"
+                        BackgroundColor="LightPink">
                 </Button>
 
             </Grid>
-            
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

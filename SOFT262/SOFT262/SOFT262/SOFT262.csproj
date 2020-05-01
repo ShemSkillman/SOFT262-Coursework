@@ -30,10 +30,13 @@
     <EmbeddedResource Update="TabbedPages\Creation\CreationPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="TabbedPages\Manage\ManageLoadedCardsPage.xaml">
+    <EmbeddedResource Update="TabbedPages\Manage\Modify Cards of Topic Page\ManageLoadedCardsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="TabbedPages\Manage\ManagePage.xaml">
+    <EmbeddedResource Update="TabbedPages\Manage\Modify Card Page\ManageModifyCardPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="TabbedPages\Manage\Manage Main Page\ManagePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="TabbedPages\Summary\SummaryPage.xaml">

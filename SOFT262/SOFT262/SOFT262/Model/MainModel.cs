@@ -36,7 +36,9 @@ namespace SOFT262.Model
 
         public ObservableCollection<RevisionCardSQL> GetRevisionCardsOfTopic(TopicSQL topic)
         {
-            return dataModel.RevisionGroups[topic];
+            dataModel.RevisionGroups.TryGetValue(topic, out ObservableCollection<RevisionCardSQL> cardsOfTopic);
+            if (cardsOfTopic == null) cardsOfTopic = new ObservableCollection<RevisionCardSQL>();
+            return cardsOfTopic;
         }
 
         public TopicSQL GetTopicByName(string topicName)
@@ -44,7 +46,7 @@ namespace SOFT262.Model
             return dataModel.GetTopicByName(topicName);
         }
 
-        public void AddNewCard(string topicName, string question, string answer)
+        public void AddNewCard(string topicName, string question, string answer, bool isNewTopic)
         {
             try
             {
@@ -56,7 +58,14 @@ namespace SOFT262.Model
                 var newRevisionCard = new RevisionCardSQL { Topic = topicName, Question = question, Answer = answer };
 
                 var topic = GetTopicByName(topicName);
-                if (topic == null) AddNewTopic(topicName);
+
+                //If topic is entered by user but topic of same name already exists
+                //then throw error so that user can assign card to already existing topic
+                if (topic != null && isNewTopic)
+                {
+                    throw new Exception("Topic of name " + topicName + " already exists!");
+                }
+                else if (topic == null) AddNewTopic(topicName);
 
                 dataModel.SaveCard(newRevisionCard);
 

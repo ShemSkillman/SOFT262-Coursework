@@ -2,15 +2,13 @@
 using SOFT262.MVVM;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 
-namespace SOFT262.Creation
+namespace SOFT262.TabbedPages.Manage
 {
-    public class CreationViewModel : ViewModelBase
+    class ManageModifyCardViewModel : ViewModelBase
     {
         int topicIndex = -1;
 
@@ -22,33 +20,31 @@ namespace SOFT262.Creation
         string question = "";
         string answer = "";
 
-        public ICommand CreateCard { get; private set; }
+        public ICommand SaveChangesCommand { get; private set; }
 
-        public CreationViewModel(IPageHelper p) : base(p)
+        public ManageModifyCardViewModel(IPageHelper p, RevisionCardSQL revisionCard) : base(p)
         {
             TopicIndex = 0;
 
-            //Set execute code when calling the create card command
-            //Resets input fields and creates card in model
-            CreateCard = new Command(execute: async () =>
-            {                
+            int originalTopicIndex = TopicNames.IndexOf(revisionCard.Topic);
+            TopicIndex = originalTopicIndex;
+            Question = revisionCard.Question;
+            Answer = revisionCard.Answer;
+            
+            SaveChangesCommand = new Command(execute: async () =>
+            {
                 try
                 {
                     string topic;
-                    if (TopicIndex != 0) topic = TopicNames[TopicIndex]; //Add to existing topic
-                    else topic = TopicName; //Add to new topic
+                    if (TopicIndex != 0) topic = TopicNames[TopicIndex]; //Change to existing topic
+                    else topic = TopicName; //Change to new topic
 
-                    model.AddNewCard(topic, question, answer, enableNewTopicNameInput);
-
-                    //Clear fields
-                    TopicName = "";
-                    Question = "";
-                    Answer = "";
+                    model.ModifyCard(revisionCard, topic, question, answer);
 
                     //Ensures that last selected topic remains selected
                     TopicIndex = TopicNames.IndexOf(topic);
 
-                    await p.MessagePopup("Card created", "Revision card has been created and added to topic " + topic);
+                    await p.MessagePopup("Saved changes", "Changes to revision card have been saved.");
                 }
                 catch (Exception ex)
                 {
@@ -56,6 +52,11 @@ namespace SOFT262.Creation
                 }
             });
         }
+
+        protected override void RefreshUI()
+        {
+            OnPropertyChanged(nameof(TopicNames));
+        }    
 
         public int TopicIndex
         {
@@ -134,11 +135,6 @@ namespace SOFT262.Creation
                 topicNames.Insert(0, "New Topic");
                 return topicNames;
             }
-        }
-
-        protected override void RefreshUI()
-        {
-            OnPropertyChanged(nameof(TopicNames));
         }
     }
 }

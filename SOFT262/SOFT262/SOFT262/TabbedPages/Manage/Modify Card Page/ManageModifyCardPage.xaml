@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Title="Edit card"
+             x:Class="SOFT262.TabbedPages.Manage.ManageModifyCardPage">
+    <ContentPage.Content>
+
+        <Grid Padding="20,20,20,20"
+              BackgroundColor="White">
+
+            <Grid.Resources>
+                <ResourceDictionary>
+                    <Style TargetType="Label">
+                        <Setter Property="FontSize" Value="Large"/>
+                    </Style>
+                </ResourceDictionary>
+            </Grid.Resources>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   HorizontalOptions="Center"
+                   Text="Edit card" 
+                   FontSize="Title"
+                   FontAttributes="Bold"/>
+
+            <Label Text="Topic" 
+                   Grid.Row="1" 
+                   Grid.Column="0"
+                   VerticalOptions="Center"/>
+
+            <Picker Grid.Row="1" Grid.Column="1"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="FillAndExpand"
+                    ItemsSource="{Binding TopicNames, Mode=OneWay}"
+                    SelectedIndex="{Binding TopicIndex, Mode=TwoWay}"
+                    x:Name="listTopics"/>
+
+
+            <Label Text="Topic name"
+                   IsVisible="{Binding EnableNewTopicNameInput, Mode=OneWay}"
+                   Grid.Row="2"
+                   Grid.Column="0"
+                   VerticalOptions="Center"/>
+
+            <Entry Grid.Row="2"
+                   Grid.Column="1"
+                   IsVisible="{Binding EnableNewTopicNameInput, Mode=OneWay}"
+                   Text="{Binding TopicName, Mode=TwoWay}"
+                   Placeholder="e.g. organisms"/>
+
+            <StackLayout Grid.Row="3" 
+                         Grid.Column="0" 
+                         Grid.ColumnSpan="2"
+                         VerticalOptions="FillAndExpand">
+
+                <Label Text="Question" HorizontalOptions="Center"/>
+
+                <Editor VerticalOptions="FillAndExpand"
+                        BackgroundColor="AliceBlue"
+                        Placeholder="e.g. What is photosynthesis?"
+                        Text="{Binding Question, Mode=TwoWay}"/>
+
+            </StackLayout>
+
+            <StackLayout Grid.Row="4" 
+                         Grid.Column="0" 
+                         Grid.ColumnSpan="2"
+                         VerticalOptions="FillAndExpand">
+
+                <Label Text="Model answer" HorizontalOptions="Center"/>
+
+                <Editor VerticalOptions="FillAndExpand"
+                        BackgroundColor="AliceBlue"
+                        Placeholder="e.g. Photosynthesis is a chemical reaction that takes place inside a plant, producing food for the plant to survive."
+                        Text="{Binding Answer, Mode=TwoWay}"/>
+
+            </StackLayout>
+
+            <Button Grid.Row="5" 
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Text ="Save Changes"
+                    VerticalOptions="Center"
+                    Command="{Binding Path=SaveChangesCommand}"/>
+
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

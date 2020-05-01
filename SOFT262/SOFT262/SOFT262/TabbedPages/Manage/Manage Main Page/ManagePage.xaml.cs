@@ -19,7 +19,6 @@ namespace SOFT262.Manage
         {
             InitializeComponent();
 
-            TopicsListView.ItemTapped += TopicsListView_ItemTapped;
             vm = new ManageViewModel(this);
             BindingContext = vm;
         }
@@ -28,14 +27,6 @@ namespace SOFT262.Manage
         {
             await DisplayAlert(messageTitle, message, "OK");
         }
-        public void TopicsListView_ItemTapped (object sender, ItemTappedEventArgs e)
-        {
-            TopicSQL topic;
-            topic = (TopicSQL)e.Item;
-            vm.TopicModifyPage(topic);
-        }
-
-
     }
 
 }

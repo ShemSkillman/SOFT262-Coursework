@@ -9,23 +9,24 @@ using Xamarin.Forms;
 
 namespace SOFT262.TabbedPages.Manage
 {
-    class ManageLoadedCardsVM : ViewModelBase
+    class ManageTopicCardsViewModel : ViewModelBase
     {
-        public ICommand CancelCommand { get; set; }
-        public ICommand DeleteCommand { get; set; }
-
-        private bool isVisible;
+        public ICommand CancelCommand { get; private set; }
+        public ICommand DeleteCommand { get; private set; }
+        public ICommand ModifyCardCommand { get; private set; }
 
         TopicSQL selectedTopic;
-        public bool IsVisible
+
+        public string ChosenTopic { get => selectedTopic.TopicName; }
+
+        public bool IsOptionsVisible
         {
             get => selectedRevisionCard != null;
-            set
-            {
-                if (isVisible == value) return;
+        }
 
-                isVisible = value;
-            }
+        public bool IsNoCardsNoticeVisible
+        {
+            get => RevisionCards.Count < 1;
         }
 
         private RevisionCardSQL selectedRevisionCard;
@@ -38,12 +39,12 @@ namespace SOFT262.TabbedPages.Manage
 
                 selectedRevisionCard = value;
 
-                OnPropertyChanged(nameof(IsVisible));
+                OnPropertyChanged(nameof(IsOptionsVisible));
                 OnPropertyChanged();
             }
         }
 
-        public ManageLoadedCardsVM(IPageHelper p, TopicSQL topic) : base(p)
+        public ManageTopicCardsViewModel(IPageHelper p, TopicSQL topic) : base(p)
         {
             selectedTopic = topic;
 
@@ -53,17 +54,32 @@ namespace SOFT262.TabbedPages.Manage
             {
                 model.DeleteCard(SelectedRevisionCard);
             });
+
+            ModifyCardCommand = new Command(execute: () =>
+            {
+                CardModifyPage(selectedRevisionCard);
+            });
         }
 
         protected override void RefreshUI()
         {
             OnPropertyChanged(nameof(RevisionCards));
+            OnPropertyChanged(nameof(IsNoCardsNoticeVisible));
+            SelectedRevisionCard = null; //Reset selection
         }
 
 
         public ObservableCollection<RevisionCardSQL> RevisionCards
         {
             get => model.GetRevisionCardsOfTopic(selectedTopic);
+        }
+
+        public void CardModifyPage(RevisionCardSQL card)
+        {
+            //Pass topic through to the next page, to get the cards in VM
+            ManageModifyCardPage modifyCardPage = new ManageModifyCardPage(card);
+            _ = Navigation.PushAsync(modifyCardPage);
+
         }
     }
 }

@@ -88,11 +88,13 @@ namespace SOFT262.Model
             if (!RevisionGroups.ContainsKey(topic)) return;
 
             foreach (var revisionCard in RevisionGroups[topic])
-            {
+            { 
                 conn.Delete(revisionCard); //Delete all cards in topic
             }
 
+            RevisionGroups[topic] = null;
             RevisionGroups.Remove(topic);
+
             conn.Delete(topic);
         }
 

@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="SOFT262.TabbedPages.Manage.ManageLoadedCardsPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="{Binding ChosenTopic, StringFormat='Revision cards of topic {0}'}"
+                VerticalOptions="Start" 
+                HorizontalOptions="CenterAndExpand"
+                FontSize="Large"/>
+            <ListView ItemsSource="{Binding RevisionCards}"
+                      VerticalOptions="FillAndExpand"
+                      HorizontalOptions="Center"
+                      SelectedItem="{Binding SelectedRevisionCard, Mode=TwoWay}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding Question, StringFormat='Q: {0}'}"
+                                  Detail="{Binding Answer, StringFormat='A: {0}'}"
+                                  TextColor="Black"
+                                  DetailColor="Green">
+                        </TextCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <Label Text="Add revision cards to this topic on the 'Create Cards' tab"
+                   HorizontalTextAlignment="Center"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   FontSize="Medium"
+                   IsVisible="{Binding IsNoCardsNoticeVisible}">                
+            </Label>
+
+            <Grid Padding="20,20,20,20"
+                  HorizontalOptions="FillAndExpand"
+                  VerticalOptions="End"
+                  IsVisible="{Binding IsOptionsVisible}"
+                  BackgroundColor="LightGray">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Text="Modify"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Command="{Binding ModifyCardCommand}"
+                        BackgroundColor="Orange">
+                </Button>
+
+                <Button Text="Delete"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Command="{Binding DeleteCommand}"
+                        BackgroundColor="IndianRed">
+                </Button>
+
+                <Button Text="Cancel"
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Command="{Binding CancelCommand}"
+                        BackgroundColor="LightPink">
+                </Button>
+
+            </Grid>
+            
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
