@@ -10,10 +10,20 @@ namespace UnitTesting
     [TestClass]
     public class DataModelTest
     {
+        string path;
+
+        [TestInitialize]
+        public void Setup()
+        {
+            string fileName = "test.db3";
+            string saveLocation = @"C:\Users\Public";
+            path = System.IO.Path.Combine(saveLocation, fileName);
+        }
+
         [TestMethod]
         public void TestGetTopicByName()
         {
-            DataModel model = new DataModel
+            DataModel model = new DataModel(path)
             {
                 RevisionGroups = new Dictionary<TopicSQL, ObservableCollection<RevisionCardSQL>>()
             };
@@ -30,17 +40,18 @@ namespace UnitTesting
             }
 
             //Check that all topics can be retrieved by name
-            for(int i = 0; i < topicNames.Length; i++)
+            for (int i = 0; i < topicNames.Length; i++)
             {
                 var fetchedTopic = model.GetTopicByName(topicNames[i]);
-                Assert.Equals(fetchedTopic, topics[i]);
+                Assert.AreEqual(topics[i], fetchedTopic);
             }
-            
+
         }
+
         [TestMethod]
         public void TestSaveTopic()
         {
-            DataModel model = new DataModel();
+            DataModel model = new DataModel(path);
 
             model.LoadData();
             Dictionary<TopicSQL, ObservableCollection<RevisionCardSQL>> test = model.RevisionGroups;
@@ -48,7 +59,30 @@ namespace UnitTesting
             testTopic.TopicName = "Xamarin";
             model.SaveTopic(testTopic);
             Assert.AreEqual(test, model.RevisionGroups);
+
+        }
+
+        [TestMethod]
+        public void TestSaveCard()
+        {
+            DataModel model = new DataModel(path);
+
+            RevisionCardSQL[] testCards = new RevisionCardSQL[5];
+            string[] topicNames = { "Pancakes", "Chemistry", "Nuclear Physics" };
+
+            for (int i = 0; i < topicNames.Length; i++)
+            {
+                for (int j = 0; j < testCards.Length; j++)
+                {
+                    testCards[j] = new RevisionCardSQL() { ID = j, Topic = topicNames[i] };
+                    model.SaveCard(testCards[j]);
+                }
+            }
             
+
+            model.LoadData();
+
+
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Text;
 using Xamarin.Essentials;
 
+
 namespace SOFT262.Model
 {
     public class DataModel
@@ -19,7 +20,17 @@ namespace SOFT262.Model
         public DataModel()
         {
             conn = new SQLiteConnection(DbPath);
+            Setup();
+        }
 
+        public DataModel(string filePath)
+        {
+            conn = new SQLiteConnection(filePath);
+            Setup();
+        }
+
+        private void Setup()
+        {
             conn.CreateTable<RevisionCardSQL>();
             conn.CreateTable<TopicSQL>();
             LoadData();
