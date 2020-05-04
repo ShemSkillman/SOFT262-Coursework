@@ -22,38 +22,39 @@ namespace SOFT262.Summary
         public SummaryViewModel(IPageHelper p) : base(p)
         {
             TopicIndex = 0;
-            SetCommands(RevisionCards);
+
+            SetCommands();
         }
 
-        public void SetCommands(ObservableCollection<RevisionCardSQL> revisionCards)
+        private void SetCommands()
         {
             FlipCardCommand = new Command(execute: () =>
             {
-                if (displayText == revisionCards[CardIndex].Question)
+                if (displayText == RevisionCards[CardIndex].Question)
                 {
-                    DisplayText = revisionCards[CardIndex].Answer;
+                    DisplayText = RevisionCards[CardIndex].Answer;
                 }
-                else if (displayText == revisionCards[CardIndex].Answer)
+                else if (displayText == RevisionCards[CardIndex].Answer)
                 {
-                    DisplayText = revisionCards[CardIndex].Question;
+                    DisplayText = RevisionCards[CardIndex].Question;
                 }
                 else
                 {
-                    DisplayText = revisionCards[CardIndex].Question; //Default when null
+                    DisplayText = RevisionCards[CardIndex].Question; //Default when null
                 }
             });
 
             NextIndexCommand = new Command(execute: () =>
             {
-                if ((CardIndex + 1) >= revisionCards.Count)
+                if ((CardIndex + 1) >= RevisionCards.Count)
                 {
                     CardIndex = 0;
-                    DisplayText = revisionCards[CardIndex].Question;
+                    DisplayText = RevisionCards[CardIndex].Question;
                 }
                 else
                 {
                     CardIndex = CardIndex + 1;
-                    DisplayText = revisionCards[CardIndex].Question;
+                    DisplayText = RevisionCards[CardIndex].Question;
                 }
             });
 
@@ -61,21 +62,21 @@ namespace SOFT262.Summary
             {
                 if ((CardIndex - 1) < 0)
                 {
-                    CardIndex = revisionCards.Count - 1;
-                    DisplayText = revisionCards[CardIndex].Question;
+                    CardIndex = RevisionCards.Count - 1;
+                    DisplayText = RevisionCards[CardIndex].Question;
                 }
                 else
                 {
                     CardIndex = CardIndex - 1;
-                    DisplayText = revisionCards[CardIndex].Question;
+                    DisplayText = RevisionCards[CardIndex].Question;
                 }
             });
 
             ShuffleCommand = new Command(execute: () =>
             {
-                Shuffle(revisionCards);
+                Shuffle(RevisionCards);
                 CardIndex = 0;
-                DisplayText = revisionCards[CardIndex].Question;
+                DisplayText = RevisionCards[CardIndex].Question;
             });
         }
 
