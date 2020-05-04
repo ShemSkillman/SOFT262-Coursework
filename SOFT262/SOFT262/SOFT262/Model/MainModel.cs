@@ -37,7 +37,8 @@ namespace SOFT262.Model
         public ObservableCollection<RevisionCardSQL> GetRevisionCardsOfTopic(TopicSQL topic)
         {
             dataModel.RevisionGroups.TryGetValue(topic, out ObservableCollection<RevisionCardSQL> cardsOfTopic);
-            if (cardsOfTopic == null) cardsOfTopic = new ObservableCollection<RevisionCardSQL>();
+
+            if (cardsOfTopic == null) cardsOfTopic = new ObservableCollection<RevisionCardSQL>(); //Topic with no cards
             return cardsOfTopic;
         }
 

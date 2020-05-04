@@ -23,6 +23,7 @@ namespace SOFT262.Model
             Setup();
         }
 
+        //Used when custom file path is set for testing
         public DataModel(string filePath)
         {
             conn = new SQLiteConnection(filePath);
@@ -36,6 +37,7 @@ namespace SOFT262.Model
             LoadData();
         }
 
+        //Get data from database and populate dictionary for easy access
         public void LoadData()
         {
             RevisionGroups = new Dictionary<TopicSQL, ObservableCollection<RevisionCardSQL>>();
@@ -53,6 +55,8 @@ namespace SOFT262.Model
                 RevisionGroups[topic].Add(revisionCard);
             }
         }
+
+        //topic string --> object
         public TopicSQL GetTopicByName(string topicName)
         {
             foreach (var topic in RevisionGroups.Keys)
@@ -120,6 +124,7 @@ namespace SOFT262.Model
             SaveTopic(topic); //Save topic card count decrease
         }
 
+        //Delete whole database
         public void DeleteAll()
         {
             conn.DeleteAll(conn.GetMapping(typeof(TopicSQL)));

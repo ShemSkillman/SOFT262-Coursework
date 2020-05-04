@@ -28,9 +28,5 @@ namespace SOFT262.Summary
             throw new NotImplementedException();
         }
 
-        private void TopicsListView_ItemTapped(object sender, ItemTappedEventArgs e)
-        {
-        }
-
     }
 }
