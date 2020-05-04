@@ -7,14 +7,14 @@ using Xamarin.Essentials;
 
 namespace SOFT262.Model
 {
-    class DataModel
+    public class DataModel
     {
         const string fileName = "RevisionCards2.db3";
         string DbPath => System.IO.Path.Combine(FileSystem.AppDataDirectory, fileName);
 
         readonly SQLiteConnection conn;
 
-        public Dictionary<TopicSQL, ObservableCollection<RevisionCardSQL>> RevisionGroups { get; private set; }
+        public Dictionary<TopicSQL, ObservableCollection<RevisionCardSQL>> RevisionGroups { get; set; }
 
         public DataModel()
         {
@@ -25,7 +25,7 @@ namespace SOFT262.Model
             LoadData();
         }
 
-        private void LoadData()
+        public void LoadData()
         {
             RevisionGroups = new Dictionary<TopicSQL, ObservableCollection<RevisionCardSQL>>();
 
