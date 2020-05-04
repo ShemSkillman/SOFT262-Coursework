@@ -22,7 +22,6 @@ namespace SOFT262.Model
 
             conn.CreateTable<RevisionCardSQL>();
             conn.CreateTable<TopicSQL>();
-
             LoadData();
         }
 

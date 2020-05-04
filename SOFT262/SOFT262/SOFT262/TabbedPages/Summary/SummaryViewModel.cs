@@ -16,7 +16,7 @@ namespace SOFT262.Summary
         private string selectedTopic;
         private string displayText;
         private int cardIndex = 0;
-
+        private Random rng = new Random();
         public SummaryViewModel(IPageHelper p) : base(p)
         {
             TopicIndex = 0;
@@ -61,9 +61,30 @@ namespace SOFT262.Summary
                     DisplayText = RevisionCards[cardIndex].Question;
                 }
             });
+            ShuffleCommand = new Command(execute: () =>
+            {
+                Shuffle(RevisionCards);
+                OnPropertyChanged(nameof(RevisionCards));
+                cardIndex = 0;
+                DisplayText = RevisionCards[cardIndex].Question;
+            });
 
         }
 
+
+        //Shuffle code adapted from: https://stackoverflow.com/questions/273313/randomize-a-listt
+        public void Shuffle(ObservableCollection<RevisionCardSQL> revisionCards)
+        {
+            int n = revisionCards.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rng.Next(n + 1);
+                var value = revisionCards[k];
+                revisionCards[k] = revisionCards[n];
+                revisionCards[n] = value;
+            }
+        }
         protected override void RefreshUI()
         {
             OnPropertyChanged(nameof(TopicNames));
@@ -82,12 +103,13 @@ namespace SOFT262.Summary
 
         }
 
-
+           
         //Variables
 
         public ICommand FlipCardCommand { get; private set; }
         public ICommand NextIndexCommand { get; private set; }
         public ICommand LastIndexCommand { get; private set; }
+        public ICommand ShuffleCommand { get; private set; }
         public List<string> TopicNames
         {
             get

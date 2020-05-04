@@ -55,6 +55,13 @@
                         WidthRequest="125"
                         Command="{Binding NextIndexCommand}"
                         />
+                <Button Text="Shuffle Card"
+                        FontSize="20"
+                        HorizontalOptions="EndAndExpand"
+                        VerticalOptions="End"
+                        WidthRequest="125"
+                        Command="{Binding ShuffleCommand}"
+                        />
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>
