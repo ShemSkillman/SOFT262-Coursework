@@ -24,6 +24,8 @@ namespace SOFT262.MVVM
             model.OnUpdate += RefreshUI;
         }
 
+        public ViewModelBase() { }
+
         //Called whenever data in the model is changed
         //All UI that displays data stored in the model is refreshed
         protected abstract void RefreshUI();

@@ -15,61 +15,72 @@ namespace SOFT262.Summary
         int topicIndex = -1;
         private string selectedTopic;
         private string displayText;
-        private int cardIndex = 0;
+
+        public int CardIndex { get; set; } = 0;
+
         private Random rng = new Random();
         public SummaryViewModel(IPageHelper p) : base(p)
         {
             TopicIndex = 0;
+            SetCommands(RevisionCards);
+        }
+
+        public void SetCommands(ObservableCollection<RevisionCardSQL> revisionCards)
+        {
             FlipCardCommand = new Command(execute: () =>
             {
-                if (displayText == RevisionCards[cardIndex].Question)
+                if (displayText == revisionCards[CardIndex].Question)
                 {
-                    DisplayText = RevisionCards[cardIndex].Answer;
+                    DisplayText = revisionCards[CardIndex].Answer;
                 }
-                else if (displayText == RevisionCards[cardIndex].Answer)
+                else if (displayText == revisionCards[CardIndex].Answer)
                 {
-                    DisplayText = RevisionCards[cardIndex].Question;
-                }
-                else
-                {
-                    DisplayText = RevisionCards[cardIndex].Question; //Default when null
-                }
-            });
-            NextIndexCommand = new Command(execute: () =>
-            {
-                if ((cardIndex + 1) >= RevisionCards.Count)
-                {
-                    cardIndex = 0;
-                    DisplayText = RevisionCards[cardIndex].Question;
+                    DisplayText = revisionCards[CardIndex].Question;
                 }
                 else
                 {
-                    cardIndex = cardIndex + 1;
-                    DisplayText = RevisionCards[cardIndex].Question;
+                    DisplayText = revisionCards[CardIndex].Question; //Default when null
                 }
-            });
-            LastIndexCommand = new Command(execute: () =>
-            {
-                if ((cardIndex - 1) < 0)
-                {
-                    cardIndex = RevisionCards.Count - 1;
-                    DisplayText = RevisionCards[cardIndex].Question;
-                }
-                else
-                {
-                    cardIndex = cardIndex - 1;
-                    DisplayText = RevisionCards[cardIndex].Question;
-                }
-            });
-            ShuffleCommand = new Command(execute: () =>
-            {
-                Shuffle(RevisionCards);
-                OnPropertyChanged(nameof(RevisionCards));
-                cardIndex = 0;
-                DisplayText = RevisionCards[cardIndex].Question;
             });
 
+            NextIndexCommand = new Command(execute: () =>
+            {
+                if ((CardIndex + 1) >= revisionCards.Count)
+                {
+                    CardIndex = 0;
+                    DisplayText = revisionCards[CardIndex].Question;
+                }
+                else
+                {
+                    CardIndex = CardIndex + 1;
+                    DisplayText = revisionCards[CardIndex].Question;
+                }
+            });
+
+            LastIndexCommand = new Command(execute: () =>
+            {
+                if ((CardIndex - 1) < 0)
+                {
+                    CardIndex = revisionCards.Count - 1;
+                    DisplayText = revisionCards[CardIndex].Question;
+                }
+                else
+                {
+                    CardIndex = CardIndex - 1;
+                    DisplayText = revisionCards[CardIndex].Question;
+                }
+            });
+
+            ShuffleCommand = new Command(execute: () =>
+            {
+                Shuffle(revisionCards);
+                CardIndex = 0;
+                DisplayText = revisionCards[CardIndex].Question;
+            });
         }
+
+        //Constructor used for testing which uses collection from testing
+        public SummaryViewModel() { }
 
 
         //Shuffle code adapted from: https://stackoverflow.com/questions/273313/randomize-a-listt
@@ -84,6 +95,8 @@ namespace SOFT262.Summary
                 revisionCards[k] = revisionCards[n];
                 revisionCards[n] = value;
             }
+
+            OnPropertyChanged(nameof(RevisionCards));
         }
         protected override void RefreshUI()
         {
@@ -102,7 +115,6 @@ namespace SOFT262.Summary
             }
 
         }
-
            
         //Variables
 
