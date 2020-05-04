@@ -15,10 +15,11 @@ namespace SOFT262.Manage
 {
     public class ManageViewModel : ViewModelBase
     {
+        //Command variables
         public ICommand ViewCardsCommand { get; private set; }
         public ICommand DeleteCommand { get; private set; }
         public ICommand CancelCommand { get; private set; }
-
+        //Constructor
         public ManageViewModel(IPageHelper p) : base(p)
         {
             CancelCommand = new Command(() => SelectedTopic = null);
@@ -39,7 +40,7 @@ namespace SOFT262.Manage
 
             ViewCardsCommand = new Command(() => TopicCardsModifyPage(SelectedTopic));
         }
-
+        
         public ObservableCollection<TopicSQL> AllTopics { get => model.AllTopics; }
 
         protected override void RefreshUI()
@@ -66,7 +67,7 @@ namespace SOFT262.Manage
 
         public bool IsOptionsVisible
         {
-            get => selectedTopic != null;
+            get => selectedTopic != null; //Hide selected topic
         }
 
         public bool IsNoTopicsNoticeVisible

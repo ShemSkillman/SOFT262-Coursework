@@ -22,13 +22,13 @@ namespace SOFT262.Summary
         public SummaryViewModel(IPageHelper p) : base(p)
         {
             TopicIndex = 0;
-            if (RevisionCards != null)
+            if (RevisionCards != null) //Checks if revision cards is completely empty
             {
                 DisplayText = RevisionCards[0].Question;
             }
             else
             {
-                DisplayText = "Create some revision cards!";
+                DisplayText = "Create some revision cards!"; 
             }
             SetCommands();
         }
@@ -39,13 +39,13 @@ namespace SOFT262.Summary
             {
                 if (RevisionCards == null || RevisionCards.Count < 1)
                 {
-                    return;
+                    return; //Button does nothing if no cards, or a topic chosen that has nothing in it
                 }
-                if (displayText == RevisionCards[CardIndex].Question)
+                if (displayText == RevisionCards[CardIndex].Question) //Swap to answer
                 {
-                    DisplayText = RevisionCards[CardIndex].Answer;
+                    DisplayText = RevisionCards[CardIndex].Answer; 
                 }
-                else if (displayText == RevisionCards[CardIndex].Answer)
+                else if (displayText == RevisionCards[CardIndex].Answer) //Swap to question
                 {
                     DisplayText = RevisionCards[CardIndex].Question;
                 }
@@ -57,6 +57,10 @@ namespace SOFT262.Summary
 
             NextIndexCommand = new Command(execute: () =>
             {
+                if (RevisionCards == null || RevisionCards.Count < 1)
+                {
+                    return;//Button does nothing if no cards, or a topic chosen that has nothing in it
+                }
                 if ((CardIndex + 1) >= RevisionCards.Count)
                 {
                     CardIndex = 0;
@@ -71,10 +75,14 @@ namespace SOFT262.Summary
 
             LastIndexCommand = new Command(execute: () =>
             {
+                if (RevisionCards == null || RevisionCards.Count < 1)
+                {
+                    return;//Button does nothing if no cards, or a topic chosen that has nothing in it
+                }
                 if ((CardIndex - 1) < 0)
                 {
                     CardIndex = RevisionCards.Count - 1;
-                    DisplayText = RevisionCards[CardIndex].Question;
+                    DisplayText = RevisionCards[CardIndex].Question; //Goes to the highest index instead.
                 }
                 else
                 {
@@ -85,6 +93,10 @@ namespace SOFT262.Summary
 
             ShuffleCommand = new Command(execute: () =>
             {
+                if (RevisionCards == null || RevisionCards.Count < 1)
+                {
+                    return;
+                }
                 Shuffle(RevisionCards);
                 CardIndex = 0;
                 DisplayText = RevisionCards[CardIndex].Question;
@@ -129,11 +141,12 @@ namespace SOFT262.Summary
         }
            
         //Variables
-
+        //Commands
         public ICommand FlipCardCommand { get; private set; }
         public ICommand NextIndexCommand { get; private set; }
         public ICommand LastIndexCommand { get; private set; }
         public ICommand ShuffleCommand { get; private set; }
+        //Other Variables
         public List<string> TopicNames
         {
             get

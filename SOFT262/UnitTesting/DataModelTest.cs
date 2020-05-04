@@ -51,38 +51,88 @@ namespace UnitTesting
         [TestMethod]
         public void TestSaveTopic()
         {
+            //Setup
             DataModel model = new DataModel(path);
+            model.DeleteAll(); //Completely clears the data!!!! DO NOT USE IN ACTUAL CODE - TESTING METHOD
+            model.LoadData();
+            Dictionary<TopicSQL, ObservableCollection<RevisionCardSQL>> test = model.RevisionGroups;
+            TopicSQL testTopic = new TopicSQL();
+            testTopic.TopicName = "Xamarin";
 
+            //Test
+            model.SaveTopic(testTopic);
+
+            //Assert
+            Assert.AreEqual(test, model.RevisionGroups);
+
+        }
+        [TestMethod]
+        public void TestDeleteTopic()
+        {
+            //Setup
+            DataModel model = new DataModel(path);
+            model.DeleteAll(); //Completely clears the data!!!! DO NOT USE IN ACTUAL CODE - TESTING METHOD
             model.LoadData();
             Dictionary<TopicSQL, ObservableCollection<RevisionCardSQL>> test = model.RevisionGroups;
             TopicSQL testTopic = new TopicSQL();
             testTopic.TopicName = "Xamarin";
             model.SaveTopic(testTopic);
-            Assert.AreEqual(test, model.RevisionGroups);
 
+            //Test
+            model.SaveDeleteTopic(testTopic);
+
+            //Assert
+            Assert.AreEqual(0, model.RevisionGroups.Count);
         }
 
         [TestMethod]
-        public void TestSaveCard()
+        public void TestSaveAndDeleteCard()
         {
             DataModel model = new DataModel(path);
+            model.DeleteAll(); //Completely clears the data!!!! DO NOT USE IN ACTUAL CODE - TESTING METHOD
 
+            //Setup
             RevisionCardSQL[] testCards = new RevisionCardSQL[5];
             string[] topicNames = { "Pancakes", "Chemistry", "Nuclear Physics" };
 
+            //Save to file
+            for (int i = 0; i < topicNames.Length; i++)
+            {
+                model.SaveTopic(new TopicSQL() { TopicName = topicNames[i] });
+                for (int j = 0; j < testCards.Length; j++)
+                {
+                    testCards[j] = new RevisionCardSQL() { Topic = topicNames[i], Answer = "A" + j.ToString(), Question = "Q" + j.ToString()};
+                    model.SaveCard(testCards[j]);
+                }
+            }            
+
+            //Read from file
+            model.LoadData();
+
+            //Test
             for (int i = 0; i < topicNames.Length; i++)
             {
                 for (int j = 0; j < testCards.Length; j++)
                 {
-                    testCards[j] = new RevisionCardSQL() { ID = j, Topic = topicNames[i] };
-                    model.SaveCard(testCards[j]);
+                    var topic = model.GetTopicByName(topicNames[i]);
+                    RevisionCardSQL fetchedCard = model.RevisionGroups[topic][j];
+
+                    Assert.AreEqual("Q" + j.ToString(), fetchedCard.Question);
+                    Assert.AreEqual("A" + j.ToString(), fetchedCard.Answer);
                 }
             }
-            
-
-            model.LoadData();
-
-
+            //Setup for testing of deleting cards
+            for (int i = 0; i < model.RevisionGroups.Count; i++)
+            {
+                var topic = model.GetTopicByName(topicNames[i]);
+                int count = model.RevisionGroups[topic].Count;
+                while (model.RevisionGroups[topic].Count > 0)
+                {
+                    model.SaveDeleteCard(model.RevisionGroups[topic][0]);
+                }
+                Assert.AreEqual(0, model.RevisionGroups[topic].Count); 
+            }
         }
+
     }
 }

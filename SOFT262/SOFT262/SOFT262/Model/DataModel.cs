@@ -119,5 +119,12 @@ namespace SOFT262.Model
             topic.CardCount -= 1;
             SaveTopic(topic); //Save topic card count decrease
         }
+
+        public void DeleteAll()
+        {
+            conn.DeleteAll(conn.GetMapping(typeof(TopicSQL)));
+            conn.DeleteAll(conn.GetMapping(typeof(RevisionCardSQL)));
+            RevisionGroups.Clear();
+        }
     }
 }
