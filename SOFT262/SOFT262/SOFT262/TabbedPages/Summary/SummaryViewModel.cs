@@ -22,7 +22,14 @@ namespace SOFT262.Summary
         public SummaryViewModel(IPageHelper p) : base(p)
         {
             TopicIndex = 0;
-
+            if (RevisionCards != null)
+            {
+                DisplayText = RevisionCards[0].Question;
+            }
+            else
+            {
+                DisplayText = "Create some revision cards!";
+            }
             SetCommands();
         }
 
@@ -30,6 +37,10 @@ namespace SOFT262.Summary
         {
             FlipCardCommand = new Command(execute: () =>
             {
+                if (RevisionCards == null || RevisionCards.Count < 1)
+                {
+                    return;
+                }
                 if (displayText == RevisionCards[CardIndex].Question)
                 {
                     DisplayText = RevisionCards[CardIndex].Answer;

@@ -8,7 +8,7 @@ using SOFT262.Model;
 namespace UnitTesting
 {
     [TestClass]
-    class DataModelTest
+    public class DataModelTest
     {
         [TestMethod]
         public void TestGetTopicByName()
